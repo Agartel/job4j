@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 
 public class TriangleTest {
+
     @Test
     public void whenExist() {
         boolean result = Triangle.exist(2.0, 2.0, 2.0);
