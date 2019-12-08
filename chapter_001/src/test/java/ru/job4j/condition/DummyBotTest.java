@@ -1,0 +1,31 @@
+package ru.job4j.condition;
+
+import org.junit.Assert;
+import org.junit.Test;
+import static org.hamcrest.Matchers.is;
+
+public class DummyBotTest {
+    @Test
+    public void whenGreetBot() {
+        Assert.assertThat(
+                DummyBot.answer("Привет, Бот."),
+                is("Привет, умник.")
+        );
+    }
+
+    @Test
+    public void whenByeBot() {
+        Assert.assertThat(
+                DummyBot.answer("Пока."),
+                is("До скорой встречи.")
+        );
+    }
+
+    @Test
+    public void whenUnknownBot() {
+        Assert.assertThat(
+                DummyBot.answer("Сколько будет 2 + 2?"),
+                is("Это ставит меня в тупик. Задайте другой вопрос.")
+        );
+    }
+}
