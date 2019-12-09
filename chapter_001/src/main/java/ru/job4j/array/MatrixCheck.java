@@ -14,17 +14,19 @@ public class MatrixCheck {
         boolean result = false;
         int i = 0;
         char sign = 'X';
-        while (i * i < board.length && !result) {
+        while (i < board.length && !result) {
             if (board[i][i] == sign) {
-                for (int index = 0; index < board.length; index++) {
-                    if (board[i][index] != sign) {
-                        break;
+                int direct = (i == 0) ? 1 : -1;
+                if (board[i][i+direct] == sign) {
+                    for (int index = 0; index < board.length; index++) {
+                        if (board[i][index] != sign) {
+                            break;
+                        }
+                        if (index == board.length - 1) {
+                            result = true;
+                        }
                     }
-                    if (index == board.length - 1) {
-                        result = true;
-                    }
-                }
-                if (!result) {
+                } else if (board[i+direct][i] == sign) {
                     for (int index = 0; index < board.length; index++) {
                         if (board[index][i] != sign) {
                             break;
@@ -51,6 +53,18 @@ public class MatrixCheck {
         printMatrix(hasWinVertical);
         boolean win = isWin(hasWinVertical);
         System.out.println("A board has a winner : " + win);
+
+        System.out.println();
+        char[][] hasWinVertical2 = {
+                {'_', '_', '_', '_', 'X'},
+                {'_', '_', '_', '_', 'X'},
+                {'_', '_', '_', '_', 'X'},
+                {'_', '_', '_', '_', 'X'},
+                {'_', '_', '_', '_', 'X'},
+        };
+        printMatrix(hasWinVertical2);
+        boolean win2 = isWin(hasWinVertical2);
+        System.out.println("A board has a winner : " + win2);
 
         System.out.println();
         char[][] hasWinHor = {
