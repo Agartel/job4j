@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Tracker {
@@ -12,30 +13,27 @@ public class Tracker {
         return item;
     }
 
-    public boolean replace(String id, Item item) {
-        boolean result = false;
-        for (int idx = 0; idx <= position; idx++) {
-            if (id.equals(items[idx].getId())) {
-                items[idx] = item;
-                result = true;
-                break;
-            }
-        }
-        return result;
-    }
-
     public boolean delete(String id) {
         boolean result = false;
-        for (int idx = 0; idx <= position; idx++) {
-            if (id.equals(items[idx].getId())) {
-                items[idx] = null;
-                result = true;
+        int idx = this.indexOf(id);
+        if (idx != position - 1) {
+            System.arraycopy(items, idx + 1, items, idx, (position  - (idx + 1)));
+        }
+        items[position - 1] = null;
+        position--;
+        result = true;
+        return result;
+    }
+    private int indexOf(String id) {
+        int rsl = -1;
+        for (int index = 0; index != position; index++) {
+            if (items[index].getId().equals(id)) {
+                rsl = index;
                 break;
             }
         }
-        return result;
+        return rsl;
     }
-
     public Item[] findAll() {
         Item[] elems = new  Item[position];
         int idx = 0;
@@ -44,6 +42,9 @@ public class Tracker {
                 elems[idx] = itm;
                 idx++;
             }
+        }
+        if (idx != position) {
+            elems = Arrays.copyOf(elems, idx);
         }
         return elems;
     }
@@ -57,20 +58,27 @@ public class Tracker {
                 idx++;
             }
         }
+        if (idx != position) {
+            elems = Arrays.copyOf(elems, idx);
+        }
         return elems;
     }
 
      public Item findById(String id) {
-        Item item = null;
-         for (int idx = 0; idx <= position; idx++) {
-             if (id.equals(items[idx].getId())) {
-                 item = items[idx];
-                 break;
-             }
+        Item itm = null;
+        int idx = indexOf(id);
+         if (idx >= 0) {
+             itm = items[idx];
          }
-         return item;
+        return itm;
     }
 
+    public boolean replace(String id, Item item) {
+        boolean result = false;
+        items[indexOf(id)] = item;
+        result = true;
+        return result;
+    }
     /**
      * Метод генерирует уникальный ключ для заявки.
      * Так как у заявки нет уникальности полей, имени и описание. Для идентификации нам нужен уникальный ключ.

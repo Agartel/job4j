@@ -17,7 +17,7 @@ public class MatrixCheck {
         while (i < board.length && !result) {
             if (board[i][i] == sign) {
                 int direct = (i == 0) ? 1 : -1;
-                if (board[i][i+direct] == sign) {
+                if (board[i][i + direct] == sign) {
                     for (int index = 0; index < board.length; index++) {
                         if (board[i][index] != sign) {
                             break;
@@ -26,7 +26,7 @@ public class MatrixCheck {
                             result = true;
                         }
                     }
-                } else if (board[i+direct][i] == sign) {
+                } else if (board[i + direct][i] == sign) {
                     for (int index = 0; index < board.length; index++) {
                         if (board[index][i] != sign) {
                             break;

@@ -1,6 +1,6 @@
 package ru.job4j.tracker;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import static org.hamcrest.Matchers.is;
@@ -34,18 +34,19 @@ public class TrackerTest {
         // Обновляем заявку в трекере.
         tracker.replace(previous.getId(), next);
         // Проверяем, что заявка с таким id имеет новые имя test2.
-        assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
+        String tmp = tracker.findById(previous.getId()).getName();
+        assertThat(tmp, is("test2"));
     }
     @Test
     public void whenAddNewNItemThenGetNItems() {
         boolean result = false;
         Tracker tracker = new Tracker();
-        Item[] srcitems = {new Item ("test1"), new Item ("test2"), new Item ("test3")};
+        Item[] srcitems = {new Item("test1"), new Item("test2"), new Item("test3")};
         for (Item itm : srcitems) {
             tracker.add(itm);
         }
         Item[] dstitems = tracker.findAll();
-        for (int i = 0; i < srcitems.length; i++) {
+        for (int i = 0; i != srcitems.length; i++) {
             if (srcitems[i] != dstitems[i]) {
                 break;
             }
@@ -59,12 +60,21 @@ public class TrackerTest {
     public void whenAddNewNItemThenGetMItemsByCondition() {
         boolean result = false;
         Tracker tracker = new Tracker();
-        Item[] srcitems = {new Item ("test1"), new Item ("test2"), new Item ("test1")};
+        Item[] srcitems = {new Item("test1"), new Item("test2"), new Item("test1")};
         for (Item itm : srcitems) {
             tracker.add(itm);
         }
         Item[] dstitems = tracker.findByName("test1");
 
         assertThat(dstitems.length == 2, is(true));
+    }
+    @Test
+    public void whenDelete() {
+        Tracker tracker = new Tracker();
+        Item bug = new Item("Bug");
+        tracker.add(bug);
+        String id = bug.getId();
+        tracker.delete(id);
+        assertThat(tracker.findById(id), is(nullValue()));
     }
 }

@@ -40,7 +40,7 @@ public class Triangle {
         double c = second.distance(third);
         double p = period(a, b, c);
         if (this.exist(a, b, c)) {
-            rsl = sqrt(p * (p - a) * (p-b) * (p-c));
+            rsl = sqrt(p * (p - a) * (p - b) * (p - c));
         }
         return rsl;
     }
