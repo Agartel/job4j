@@ -1,10 +1,6 @@
 package ru.job4j.singleton;
 
-import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Tracker;
-
-import java.util.Arrays;
-import java.util.Random;
 
 public class TrackerSgl4 {
     Tracker tracker = new Tracker();

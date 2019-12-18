@@ -2,8 +2,6 @@ package ru.job4j.singleton;
 
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
-
-
 import static org.hamcrest.Matchers.is;
 
 public class TrackerSglTest {
