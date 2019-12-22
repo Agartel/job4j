@@ -13,7 +13,7 @@ public class CreateActionTest {
         Input input = new StubInput(answers);
         Tracker tracker = new Tracker();
         new CreateAction().execute(input, tracker);
-        Item created = tracker.findAll()[0];
+        Item created = tracker.findAll().get(0);
         Item expected = new Item("Fix PC");
         assertThat(created.getName(), is(expected.getName()));
     }

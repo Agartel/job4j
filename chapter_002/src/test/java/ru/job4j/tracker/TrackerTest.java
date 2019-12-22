@@ -3,6 +3,10 @@ package ru.job4j.tracker;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.is;
 
 public class TrackerTest {
@@ -41,16 +45,19 @@ public class TrackerTest {
     public void whenAddNewNItemThenGetNItems() {
         boolean result = false;
         Tracker tracker = new Tracker();
-        Item[] srcitems = {new Item("test1"), new Item("test2"), new Item("test3")};
+        List<Item> srcitems = new ArrayList();
+        srcitems.add(new Item("test1"));
+        srcitems.add(new Item("test2"));
+        srcitems.add(new Item("test3"));
         for (Item itm : srcitems) {
             tracker.add(itm);
         }
-        Item[] dstitems = tracker.findAll();
-        for (int i = 0; i != srcitems.length; i++) {
-            if (srcitems[i] != dstitems[i]) {
+        List<Item> dstitems = tracker.findAll();
+        for (int i = 0; i != srcitems.size(); i++) {
+            if (!srcitems.get(i).equals(dstitems.get(i))) {
                 break;
             }
-            if (i == srcitems.length - 1) {
+            if (i == srcitems.size() - 1) {
                 result = true;
             }
         }
@@ -60,13 +67,17 @@ public class TrackerTest {
     public void whenAddNewNItemThenGetMItemsByCondition() {
         boolean result = false;
         Tracker tracker = new Tracker();
-        Item[] srcitems = {new Item("test1"), new Item("test2"), new Item("test1")};
+        List<Item> srcitems = new ArrayList();
+        srcitems.add(new Item("test1"));
+        srcitems.add(new Item("test2"));
+        srcitems.add(new Item("test1"));
+
         for (Item itm : srcitems) {
             tracker.add(itm);
         }
-        Item[] dstitems = tracker.findByName("test1");
+        List<Item> dstitems = tracker.findByName("test1");
 
-        assertThat(dstitems.length == 2, is(true));
+        assertThat(dstitems.size() == 2, is(true));
     }
     @Test
     public void whenDelete() {
