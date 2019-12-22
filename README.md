@@ -1,3 +1,1 @@
-# job4j
-123123123123123
-цйуйцу
+[![Build Status](https://travis-ci.org/Agartel/job4j.svg?branch=master)](https://travis-ci.org/Agartel/job4j)
