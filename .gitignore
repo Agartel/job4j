@@ -76,3 +76,4 @@ build
 #other
 target/
 production/
+.travis.yml
