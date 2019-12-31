@@ -34,7 +34,7 @@ public class ConvertList2ArrayTest {
         list.add(new int[]{3, 4, 5, 6});
         ConvertList2Array conv = new ConvertList2Array();
         List<Integer> result = conv.convert(list);
-        List<Integer> etalon = new ArrayList<>();
+        List<Integer> etalon = new ArrayList<Integer>();
         etalon.add(1);
         etalon.add(2);
         etalon.add(3);
