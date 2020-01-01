@@ -19,8 +19,8 @@ public class Bank {
     }
     // добавить счёт пользователю.
     public void addAccountToUser(String passport, Account account) {
-        //List<Account> accs = bank.entrySet().stream().filter(u -> u.getKey().equals(new User(passport))).map(Map.Entry::getValue);
-        List<Account> accs = bank.get(new User(passport));
+        List<Account> accs = bank.entrySet().stream().filter(u -> u.getKey().getPassport().equals(passport)).map(u -> u.getValue());
+        //List<Account> accs = bank.get(new User(passport));
         accs.add(account);
     }
     // удалить один счёт пользователя.

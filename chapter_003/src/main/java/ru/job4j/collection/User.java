@@ -15,6 +15,10 @@ public class User {
         this.passport = passport;
     }
 
+    public String getPassport() {
+        return this.passport;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
