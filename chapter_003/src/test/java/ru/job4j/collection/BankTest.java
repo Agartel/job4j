@@ -42,8 +42,10 @@ public class BankTest {
         bank.addUser(user1);
         Account acc1User1 = new Account(25.56, "67");
         Account acc2User1 = new Account(13.56, "33");
+
         bank.addAccountToUser("231113", acc1User1);
         bank.addAccountToUser("231113", acc2User1);
+
         List<Account> accList = bank.getUserAccounts("231113");
         assertThat(accList.size(), is(2));
     }
@@ -86,5 +88,12 @@ public class BankTest {
         assertFalse(res);
         assertThat(acc1User1.getValue(), is(sum1));
         assertThat(acc1User2.getValue(), is(sum2));
+    }
+    @Test
+    public void xxx() {
+        Bank bank = new Bank();
+        User user1 = new User("Alex", "231113");
+        bank.addUser(user1);
+        Optional<Account> acc = bank.getAcc("123", "555");
     }
 }

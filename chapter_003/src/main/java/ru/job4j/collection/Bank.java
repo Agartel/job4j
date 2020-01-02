@@ -16,39 +16,53 @@ public class Bank {
         bank.remove(user);
     }
 
+    public Optional<User> getUser(String passport) {
+        Optional<User>  user = bank.keySet().stream()
+                                            .filter(u -> u.getPassport().equals(passport))
+                                            .findFirst();
+        return  user;
+    }
+
     public void addAccountToUser(String passport, Account account) {
-        bank.entrySet().stream()
-                .filter(u -> u.getKey().getPassport().equals(passport))
-                .findFirst()
-                .map(Map.Entry::getValue)
-                .ifPresent(v -> v.add(account));
+        Optional<User> user = getUser(passport);
+        if (user.isPresent()) {
+            if (bank.get(user.get()) != null) {
+                bank.get(user.get()).add(account);
+            }
+        }
     }
 
     public void deleteAccountFromUser(String passport, Account account) {
-        bank.entrySet().stream()
-                .filter(u -> u.getKey().getPassport().equals(passport))
-                .findFirst()
-                .map(Map.Entry::getValue)
-                .ifPresent(v -> v.remove(v.indexOf(account)));
+        Optional<User> user = getUser(passport);
+        if (user.isPresent()) {
+            if (!bank.get(user.get()).isEmpty()) {
+                bank.get(user.get()).remove(bank.get(user.get()).indexOf(account));
+            }
+        }
     }
 
      public List<Account> getUserAccounts(String passport) {
-         List<Account> accs = bank.entrySet().stream()
-                                    .filter(u -> u.getKey().getPassport().equals(passport))
-                                    .findFirst()
-                                    .map(Map.Entry::getValue)
-                                    .orElse(new ArrayList<Account>());
+         List<Account> accs = null;
+         Optional<User> user = getUser(passport);
+         if (user.isPresent()) {
+                      if (!bank.get(user.get()).isEmpty()) {
+                          accs = bank.get(user.get());
+                      } else {
+                          accs = new ArrayList<Account>();
+                      }
+         }
         return accs;
      }
 
-    public Optional<Account> indexOf(String passport, String requisite) {
-        return bank.entrySet().stream()
-                .filter(u -> u.getKey().getPassport().equals(passport))
-                .findFirst()
-                .map(Map.Entry::getValue)
-                .get().stream()
-                .filter(srcAcc -> srcAcc.getRequisites().equals(requisite))
-                .findFirst();
+    public Optional<Account> getAcc(String passport, String requisite) {
+        Optional<Account> acc = Optional.empty();
+        Optional<User> user = getUser(passport);
+        if (user.isPresent()) {
+            acc =  bank.get(user.get()).stream()
+                    .filter(srcAcc -> srcAcc.getRequisites().equals(requisite))
+                    .findFirst();
+        }
+       return  acc;
     }
 
     /**
@@ -63,8 +77,8 @@ public class Bank {
      */
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
         boolean rsl = false;
-        Optional<Account> from = indexOf(srcPassport, srcRequisite);
-        Optional<Account> to = indexOf(destPassport, dstRequisite);
+        Optional<Account> from = getAcc(srcPassport, srcRequisite);
+        Optional<Account> to = getAcc(destPassport, dstRequisite);
         if (from.isPresent() && to.isPresent()) {
             if (Double.compare(from.get().getValue(), amount) != -1) {
                 from.get().setValue(from.get().getValue() - amount);
