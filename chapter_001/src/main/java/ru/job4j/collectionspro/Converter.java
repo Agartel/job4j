@@ -7,26 +7,39 @@ public class Converter {
     Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
 
+            Iterator<Integer> iter;
+
+            {
+                if (it.hasNext()) {
+                    iter = it.next();
+                } else {
+                    throw new NoSuchElementException("Не найден элемент");
+                }
+            }
+
             @Override
             public boolean hasNext() {
                 boolean res = false;
-                Iterator<Integer> iter;
-                if (it.hasNext()) {
-                    iter = it.next();
-                    if (iter.hasNext()) {
+                if (iter.hasNext()) {
                         res = true;
-                    }
                 }
                 return res;
             }
 
             @Override
             public Integer next() {
-                if (it.hasNext()) {
-                    return it.next().next();
+                int res = 0;
+                if (iter.hasNext()) {
+                    res = iter.next();
+                    if (!iter.hasNext() && it.hasNext()) {
+                        iter = it.next();
+                    }
                 } else {
-                    throw new NoSuchElementException("Не найден элемент");
+                    if (!it.hasNext()) {
+                        throw new NoSuchElementException("Не найден элемент");
+                    }
                 }
+                return res;
             }
         };
     }
