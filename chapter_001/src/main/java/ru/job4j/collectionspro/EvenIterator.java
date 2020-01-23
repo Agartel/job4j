@@ -7,6 +7,7 @@ public class EvenIterator implements Iterator {
 
     private int[] even;
     private int idx;
+    private final String errtxt = "Чётный элемент не найден";
 
     public EvenIterator(final int[] even) {
         this.even = even;
@@ -41,14 +42,12 @@ public class EvenIterator implements Iterator {
 
     @Override
     public Object next() {
-        int res;
-        String errtxt = "Чётный элемент не найден";
-        if (pointToEven()) {
-            res = even[idx++];
-        } else {
+        int res = 0;
+        if (!hasNext()) {
             throw new NoSuchElementException(errtxt);
-        };
-        pointToEven();
+        }
+        res = even[idx++];
+        hasNext();
         return res;
     }
 }
