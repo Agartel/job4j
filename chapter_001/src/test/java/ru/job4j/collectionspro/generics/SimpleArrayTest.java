@@ -19,15 +19,6 @@ public class SimpleArrayTest {
         sa.add(7);
     }
 
-    @Test
-    public void afterFillArrayShouldGet3Elems () {
-        int cnt = 0;
-        for (Integer elem : sa) {
-            cnt++;
-        }
-        Assert.assertThat(cnt, is(3));
-    }
-
     @Test(expected = IndexOutOfBoundsException.class)
     public void shouldReturnExceptionIdxOutOfBounds () {
         sa.add(8);
