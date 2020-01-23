@@ -1,7 +1,8 @@
-package ru.job4j.collectionspro;
+package ru.job4j.collectionspro.iterator;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.job4j.collectionspro.iterator.IteratorDoubleArray;
 
 import java.util.Iterator;
 
