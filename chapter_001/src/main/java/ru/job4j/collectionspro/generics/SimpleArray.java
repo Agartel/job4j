@@ -33,7 +33,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return index < arr.length;
+                return index < arr.length && arr[index] != null;
             }
 
             @Override
