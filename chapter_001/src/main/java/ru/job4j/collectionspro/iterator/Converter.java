@@ -10,36 +10,32 @@ public class Converter {
             Iterator<Integer> iter;
 
             {
-                if (it.hasNext()) {
-                    iter = it.next();
-                } else {
+                if (!it.hasNext()) {
                     throw new NoSuchElementException("Не найден элемент");
                 }
+                iter = it.next();
             }
 
             @Override
             public boolean hasNext() {
-                boolean res = false;
-                if (iter.hasNext()) {
-                        res = true;
+                if (!iter.hasNext()) {
+                    while (it.hasNext()) {
+                        iter = it.next();
+                        if (iter != null && iter.hasNext()) {
+                            return  true;
+                        }
+                    }
+                    return false;
                 }
-                return res;
+                return true;
             }
 
             @Override
             public Integer next() {
-                int res = 0;
-                if (iter.hasNext()) {
-                    res = iter.next();
-                    if (!iter.hasNext() && it.hasNext()) {
-                        iter = it.next();
-                    }
-                } else {
-                    if (!it.hasNext()) {
-                        throw new NoSuchElementException("Не найден элемент");
-                    }
+                if (!hasNext()) {
+                    throw new NoSuchElementException("Не найден элемент");
                 }
-                return res;
+                return iter.next();
             }
         };
     }
