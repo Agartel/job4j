@@ -4,6 +4,7 @@ package ru.job4j.collectionspro.List;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DynamicArray<T> implements Iterable<T> {
 
@@ -38,7 +39,7 @@ public class DynamicArray<T> implements Iterable<T> {
 
             private T[] arr = (T[])container;
             private int index = 0;
-            private  int modCnt = modCount;
+            private int modCnt = modCount;
 
             private void checkChanges() {
                 if (modCnt != modCount) {
@@ -49,12 +50,15 @@ public class DynamicArray<T> implements Iterable<T> {
             @Override
             public boolean hasNext() {
                 checkChanges();
-                return index < arr.length && arr[index] != null && modCnt == modCount;
+                return index < arr.length && arr[index] != null;
             }
 
             @Override
             public T next() {
                 checkChanges();
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                };
                 return arr[index++];
             }
         };
