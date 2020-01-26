@@ -7,7 +7,6 @@ import java.util.NoSuchElementException;
 public class DynamicLinkedArray<T> implements Iterable<T> {
     private int modCount = 0;
     private Node<T> first;
-    private Node<T> last;
     private static class Node<T> {
 
         T data;
@@ -21,12 +20,8 @@ public class DynamicLinkedArray<T> implements Iterable<T> {
     public void add(T data) {
         modCount++;
         Node<T> newElem = new Node<T>(data);
-        if (modCount == 1) {
-            this.first = newElem;
-        } else  {
-            this.last.next = newElem;
-        }
-        this.last = newElem;
+        newElem.next = this.first;
+        this.first = newElem;
     }
 
     public T get(int index) {

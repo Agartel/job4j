@@ -19,7 +19,7 @@ public class DynamicLinkedArrayTest {
         arr.add(2);
         arr.add(3);
         arr.add(4);
-        assertThat(arr.get(0), is(1));
+        assertThat(arr.get(0), is(4));
     }
 
     @Test(expected = NoSuchElementException.class)
