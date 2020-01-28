@@ -26,12 +26,12 @@ public class MapTest {
                     Objects.equals(birthday, user.birthday);
         }
 
-/*@Override
+        @Override
         public int hashCode() {
             int hash = name == null ? 0 : name.hashCode();
             hash = 31 * hash + (birthday == null ? 0 : birthday.hashCode());
             return hash;
-        }*/
+        }
     }
 
     @Test
