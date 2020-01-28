@@ -9,7 +9,6 @@ public class MapTest {
         String name;
         int children;
         Calendar birthday;
-        private int id;
 
         public User(String name, int children, Calendar birthday) {
             this.name = name;
@@ -18,11 +17,21 @@ public class MapTest {
         }
 
         @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            User user = (User) o;
+            return children == user.children &&
+                    Objects.equals(name, user.name) &&
+                    Objects.equals(birthday, user.birthday);
+        }
+
+/*@Override
         public int hashCode() {
             int hash = name == null ? 0 : name.hashCode();
             hash = 31 * hash + (birthday == null ? 0 : birthday.hashCode());
             return hash;
-        }
+        }*/
     }
 
     @Test
