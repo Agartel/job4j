@@ -33,21 +33,6 @@ public class MapTest {
         Set<User> set = new HashSet<>();
         set.add(user1);
         set.add(user2);
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
-        set.add(new User("Alex", 0,date));
         System.out.println(set.size());
         System.out.println(set);
     }
