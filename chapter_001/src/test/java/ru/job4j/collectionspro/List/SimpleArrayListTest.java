@@ -2,7 +2,11 @@ package ru.job4j.collectionspro.List;
 
 import org.junit.Test;
 import org.junit.Before;
+
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class SimpleArrayListTest {
@@ -28,8 +32,13 @@ public class SimpleArrayListTest {
     }
 
     @Test
-    public void whenDelElemFrom0PosThenGetSecondElemFrom0Pos() {
+    public void whenDelElemFrom0PosThenGetSecondElemFrom1Pos() {
         list.delete();
         assertThat(list.get(0), is(2));
+    }
+    @Test(expected = NoSuchElementException.class)
+    public void whenTryDelEmptyElemThenGetException() {
+        SimpleArrayList<Integer> list = new SimpleArrayList<>();
+        list.delete();
     }
 }

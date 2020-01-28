@@ -1,5 +1,7 @@
 package ru.job4j.collectionspro.List;
 
+import java.util.NoSuchElementException;
+
 public class SimpleArrayList<E> {
 
     private int size;
@@ -19,6 +21,9 @@ public class SimpleArrayList<E> {
      * Реализовать метод удаления первого элемент в списке.
      */
     public E delete() {
+        if (this.first == null) {
+            throw new NoSuchElementException("Не найден элемент");
+        }
         this.first = this.first.next;
         return this.first.data;
     }
