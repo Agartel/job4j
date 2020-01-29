@@ -18,14 +18,16 @@ public class Converter {
 
             @Override
             public boolean hasNext() {
-                if (!iter.hasNext()) {
-                    while (it.hasNext()) {
-                        iter = it.next();
-                        if (iter != null && iter.hasNext()) {
-                            return  true;
+                while (!iter.hasNext()) {
+                    if (iter == null) {
+                        iter.next();
+                    }  else if (!it.hasNext()) {
+                        return false;
+                    }  else {
+                        while (it == null || !it.hasNext()) {
+                           iter = it.next();
                         }
                     }
-                    return false;
                 }
                 return true;
             }
