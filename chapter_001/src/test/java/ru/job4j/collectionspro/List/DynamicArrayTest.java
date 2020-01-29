@@ -47,4 +47,10 @@ public class DynamicArrayTest {
         int tmp = it.next();
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void WhenTryGetLessZeroThenGetExcept () {
+        arr = new DynamicArray<>();
+        int tmp = arr.get(-1);
+    }
+
 }
