@@ -26,6 +26,9 @@ public class DynamicArray<T> implements Iterable<T> {
     }
 
     public T get(int index) {
+        if (index <0 ) {
+            throw new IndexOutOfBoundsException ("Индекс не может быть отрицательным");
+        }
         return (T)this.container[index];
     }
 
