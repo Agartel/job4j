@@ -100,7 +100,7 @@ public class IteratorOfIteratorsTest {
     }
 
     @Test
-    public void WhenIsNullIterThenNextToNotNullIter(){
+    public void WhenIsIterNullThenNextToNotNullIter(){
         Iterator<Integer> it1 = Arrays.asList(1, 2, 3).iterator();
         Iterator<Integer> it3 = Arrays.asList(7, 8, 9).iterator();
         Iterator<Iterator<Integer>> its = Arrays.asList(it1, null, it3).iterator();
