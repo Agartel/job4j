@@ -5,16 +5,21 @@ import ru.job4j.collectionspro.generics.SimpleArray;
 import java.util.Iterator;
 
 public class SimpleSet<E> implements Iterable<E>{
-    SimpleArray<E> arr = new SimpleArray<E>();
-
-    public void add(E elem) {
+    private SimpleArray<E> arr = new SimpleArray<E>();
+    public boolean Contains(E elem) {
         Iterator<E> it = arr.iterator();
         while (it.hasNext()) {
             if (it.next().equals(elem)) {
-                return;
+                return false;
             }
         }
-        arr.add(elem);
+        return true;
+    }
+
+    public void add(E elem) {
+      if (Contains(elem)) {
+          arr.add(elem);
+      }
     }
 
     @Override
