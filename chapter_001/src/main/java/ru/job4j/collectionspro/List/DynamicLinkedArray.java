@@ -26,6 +26,9 @@ public class DynamicLinkedArray<T> implements Iterable<T> {
 
     public T get(int index) {
         Node<T> result = this.first;
+        if (index > modCount || index < 0) {
+            throw new IndexOutOfBoundsException("Индекс не прошёл валидацию");
+        }
         for (int i = 0; i < index; i++) {
             result = result.next;
         }

@@ -26,7 +26,6 @@ public class Converter {
                     while (iter == null) {
                         iter = it.next();
                     }
-
                 }
                 return true;
             }
