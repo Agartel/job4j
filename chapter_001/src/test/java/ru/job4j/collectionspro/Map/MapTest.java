@@ -29,7 +29,7 @@ public class MapTest {
         @Override
         public int hashCode() {
             int hash = name == null ? 0 : name.hashCode();
-            hash = 31 * hash + (birthday == null ? 0 : birthday.hashCode());
+            hash = 31 * hash + (birthday == null ? 0 : birthday.hashCode()) + children;
             return hash;
         }
     }
@@ -38,11 +38,10 @@ public class MapTest {
     public void Map () {
         Calendar date = Calendar.getInstance();
         User user1 = new User("Alex", 0,date);
-        User user2 = new User("Alex", 0,date);
+        User user2 = new User("Alex2", 0,date);
         Set<User> set = new HashSet<>();
         set.add(user1);
         set.add(user2);
-        System.out.println(set.size());
         System.out.println(set);
     }
 }
