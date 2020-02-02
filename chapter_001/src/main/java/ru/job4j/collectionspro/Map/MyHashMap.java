@@ -1,15 +1,16 @@
 package ru.job4j.collectionspro.Map;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class MyHashMap<K, V> implements Iterator<V> {
+public class MyHashMap<K, V> implements Iterable<V> {
     private Object[] hashtbl = new Object[16];
     private int idx = 0;
     private int modCount = 0;
-    private Node<K, V> curnode = (Node<K, V>)hashtbl[0];
 
-    class Node<K,V>  {
+
+     class Node<K,V>  {
         private final int hash;
         private final K key;
         private V value;
@@ -24,23 +25,25 @@ public class MyHashMap<K, V> implements Iterator<V> {
     }
 
     boolean insert(K key, V value) {
-        Node<K, V> node;
+        Node<K, V> nodefirst, node;
         int i;
         if (key == null) {
             throw new NullPointerException("Ключ должен быть не null");
         }
         modCount++;
         int hash = key.hashCode();
-        if ((node = (Node<K, V>) hashtbl[i = (hashtbl.length - 1) & hash]) == null) {
+        if ((nodefirst = node = (Node<K, V>) hashtbl[i = (hashtbl.length - 1) & hash]) == null) {
             hashtbl[i] = new Node(hash, key, value, null);
             return true;
         }
-        while ((node = node.next) != null) {
-            if (node.hash == hash && (node.key == key || (key.equals(node.key)))) {
+        while (nodefirst != null) {
+            if (nodefirst.hash == hash && (nodefirst.key == key || (key.equals(nodefirst.key)))) {
                 return false;
             }
+            node = nodefirst ;
+            nodefirst = nodefirst.next;
         }
-        node = new Node<>(hash, key, value, null);
+        node.next = new Node<>(hash, key, value, null);
         return true;
     }
     
@@ -63,12 +66,19 @@ public class MyHashMap<K, V> implements Iterator<V> {
     boolean delete(K key) {
         Node<K, V> node1;
         Node<K, V> node2;
+        int bucket;
         if (key == null) {
             throw new NullPointerException("Ключ должен быть не null");
         }
         modCount++;
         int hash = key.hashCode();
-        node1 = node2 = (Node<K, V>) hashtbl[hashtbl.length - 1 & hash];
+        node1 = (Node<K, V>) hashtbl[bucket = (hashtbl.length - 1) & hash];
+        if (node1.hash == hash && (node1.key == key || (key.equals(node1.key)))) {
+            hashtbl[bucket] = node1.next == null ? null : node1.next;
+            return true;
+        }
+        node2 = node1;
+        node1 = node1.next;
         while (node1 != null) {
             if (node1.hash == hash && (node1.key == key || (key.equals(node1.key)))) {
                 node2.next = node1.next;
@@ -81,24 +91,37 @@ public class MyHashMap<K, V> implements Iterator<V> {
     }
 
     @Override
-    public boolean hasNext() {
-        while (curnode == null) {
-            if (idx < hashtbl.length - 1) {
-                break;
+    public Iterator<V> iterator() {
+        return new Iterator<V>() {
+
+            private int modcnt = modCount;
+            private Node<K, V> curnode = (Node<K, V>)hashtbl[0];
+
+            @Override
+            public boolean hasNext() {
+                if (modcnt != modCount) {
+                    throw new ConcurrentModificationException("Объект был изменён");
+                }
+                while (curnode == null) {
+                    if (idx == hashtbl.length - 1) {
+                        return false;
+                    }
+                    curnode = (Node<K, V>) hashtbl[++idx];
+                }
+                return true;
             }
-            curnode = (Node<K, V>) hashtbl[++idx];
-        }
-        return false;
+
+            @Override
+            public V next() {
+                Node<K, V> result;
+                if (!hasNext()) {
+                    throw  new NoSuchElementException("Не найден элемент");
+                }
+                result = curnode;
+                curnode = curnode.next;
+                return result.value;
+            }
+        };
     }
 
-    @Override
-    public V next() {
-        Node<K, V> result;
-        if (!hasNext()) {
-            throw  new NoSuchElementException("Не найден элемент");
-        }
-        result = curnode;
-        curnode = curnode.next;
-        return result.value;
-    }
 }
