@@ -8,6 +8,9 @@ public class SimpleArray<T> implements Iterable<T> {
     private int idx = 0;
 
     public void add(T model) throws IndexOutOfBoundsException {
+        if (model == null && idx > 0) {
+            return;
+        }
         this.array[idx++] = model;
     }
 
@@ -33,7 +36,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return index < arr.length && arr[index] != null;
+                return index < arr.length;
             }
 
             @Override
