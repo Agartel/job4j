@@ -113,5 +113,17 @@ public class IteratorOfIteratorsTest {
         assertThat(it.next(), is(8));
         assertThat(it.next(), is(9));
     }
+
+    @Test
+    public void hasNext(){
+        Iterator<Integer> it1 = (new ArrayList<Integer>()).iterator();
+        Iterator<Integer> it2 = (new ArrayList<Integer>()).iterator();
+        Iterator<Integer> it4 = (new ArrayList<Integer>()).iterator();
+        Iterator<Integer> it3 = (Arrays.asList(1, 2, 3)).iterator();
+        Iterator<Iterator<Integer>> its = Arrays.asList(it1, it2, it4, it3).iterator();
+        Converter IteratorOfIterators = new Converter();
+        it = IteratorOfIterators.convert(its);
+        assertThat(it.hasNext(), is(true));
+    }
 }
 
