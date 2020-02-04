@@ -3,6 +3,7 @@ package ru.job4j.collectionspro.Map;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class MyHashMap<K, V> implements Iterable<V> {
     private Object[] hashtbl = new Object[16];
@@ -27,60 +28,53 @@ public class MyHashMap<K, V> implements Iterable<V> {
     boolean insert(K key, V value) {
         Node<K, V> nodefirst, node;
         int i;
-        if (key == null) {
-            throw new NullPointerException("Ключ должен быть не null");
-        }
-        modCount++;
         int hash = key.hashCode();
         if ((nodefirst = node = (Node<K, V>) hashtbl[i = (hashtbl.length - 1) & hash]) == null) {
+            modCount++;
             hashtbl[i] = new Node(hash, key, value, null);
             return true;
         }
         while (nodefirst != null) {
-            if (nodefirst.hash == hash && (nodefirst.key == key || (key.equals(nodefirst.key)))) {
+            if (nodefirst.hash == hash && ((Objects.equals(key, nodefirst.key)))) {
                 return false;
             }
             node = nodefirst ;
             nodefirst = nodefirst.next;
         }
+        modCount++;
         node.next = new Node<>(hash, key, value, null);
         return true;
     }
     
      V get(K key) {
          Node<K, V> node;
-         if (key == null) {
-             throw new NullPointerException("Ключ должен быть не null");
-         }
          int hash = key.hashCode();
          node = (Node<K, V>) hashtbl[hashtbl.length - 1 & hash];
          while (node != null) {
-             if (node.hash == hash && (node.key == key || (key.equals(node.key)))) {
+             if (node.hash == hash && (Objects.equals(key, node.key))) {
                  return node.value;
              }
              node = node.next;
          }
-         throw new NoSuchElementException("Не найден элемент");
+         return null;
      }
 
     boolean delete(K key) {
         Node<K, V> node1;
         Node<K, V> node2;
         int bucket;
-        if (key == null) {
-            throw new NullPointerException("Ключ должен быть не null");
-        }
-        modCount++;
         int hash = key.hashCode();
         node1 = (Node<K, V>) hashtbl[bucket = (hashtbl.length - 1) & hash];
-        if (node1.hash == hash && (node1.key == key || (key.equals(node1.key)))) {
+        if (node1.hash == hash && (Objects.equals(key, node1.key))) {
+            modCount++;
             hashtbl[bucket] = node1.next == null ? null : node1.next;
             return true;
         }
         node2 = node1;
         node1 = node1.next;
         while (node1 != null) {
-            if (node1.hash == hash && (node1.key == key || (key.equals(node1.key)))) {
+            if (node1.hash == hash && (Objects.equals(key, node1.key))) {
+                modCount++;
                 node2.next = node1.next;
                 return true;
             }

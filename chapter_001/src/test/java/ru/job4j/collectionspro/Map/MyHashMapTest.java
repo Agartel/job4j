@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class MyHashMapTest {
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void whenAddsUsersAndDeleteOneOfAllUserThenGetCorretUsers() {
         Calendar date = Calendar.getInstance();
         MapTest.User user1 = new MapTest.User("alex", 2, date);
@@ -28,7 +28,7 @@ public class MyHashMapTest {
         assertThat(mymap.get(user1), is(5));
         assertThat(mymap.get(user3), is(9));
         assertThat(mymap.get(user4), is(2));
-        mymap.get(user2);
+        assertNull(mymap.get(user2));
     }
 
     @Test
