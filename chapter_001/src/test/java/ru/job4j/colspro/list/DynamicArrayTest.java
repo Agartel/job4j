@@ -24,7 +24,7 @@ public class DynamicArrayTest {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void whenTryGetElemOutBoundThendReturnException () {
+    public void whenTryGetElemOutBoundThendReturnException() {
         arr = new DynamicArray<>();
         arr.add(1);
         arr.add(2);
@@ -37,7 +37,7 @@ public class DynamicArrayTest {
     }
 
     @Test(expected = ConcurrentModificationException.class)
-    public void shouldReturnExceptionConcurentMod () {
+    public void shouldReturnExceptionConcurentMod() {
         arr = new DynamicArray<>();
         arr.add(1);
         arr.add(2);
@@ -47,7 +47,7 @@ public class DynamicArrayTest {
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void whenTryGetLessZeroThenGetExcept () {
+    public void whenTryGetLessZeroThenGetExcept() {
         arr = new DynamicArray<>();
         int tmp = arr.get(-1);
     }

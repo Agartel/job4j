@@ -48,7 +48,6 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
             if (elem.getId().equals(id)) {
                 result = elem;
                 break;
-
             }
         }
         return result;

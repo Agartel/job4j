@@ -13,31 +13,31 @@ public class SimpleArrayTest {
     private SimpleArray<Integer> sa = new SimpleArray<>();
 
     @Before
-    public void setUp(){
+    public void setUp() {
         sa.add(5);
         sa.add(6);
         sa.add(7);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void shouldReturnExceptionIdxOutOfBounds () {
+    public void shouldReturnExceptionIdxOutOfBounds() {
         sa.add(8);
     }
 
     @Test
-    public void whenSet135To2ElemThenGet135From2Elem () {
+    public void whenSet135To2ElemThenGet135From2Elem() {
         sa.set(2, 135);
         Assert.assertThat(sa.get(2), is(135));
     }
 
     @Test
-    public void whenRemove1ElemThenGet2Elem () {
+    public void whenRemove1ElemThenGet2Elem() {
         sa.remove(1);
         Assert.assertThat(sa.get(2), is(7));
     }
 
     @Test
-    public void testsThatNextMethodWorks () {
+    public void testsThatNextMethodWorks() {
         Iterator<Integer> it = sa.iterator();
         Assert.assertThat(it.next(), is(5));
         Assert.assertThat(it.next(), is(6));
@@ -45,7 +45,7 @@ public class SimpleArrayTest {
     }
 
     @Test
-    public void hasNextInvocationDoesntAffectRetrievalOrder () {
+    public void hasNextInvocationDoesntAffectRetrievalOrder() {
         Iterator<Integer> it = sa.iterator();
         Assert.assertThat(it.hasNext(), is(true));
         Assert.assertThat(it.hasNext(), is(true));
@@ -58,7 +58,7 @@ public class SimpleArrayTest {
     }
 
     @Test
-    public void afterRetrievalHasNextWorks () {
+    public void afterRetrievalHasNextWorks() {
         Iterator<Integer> it = sa.iterator();
         Assert.assertThat(it.next(), is(5));
         Assert.assertThat(it.next(), is(6));

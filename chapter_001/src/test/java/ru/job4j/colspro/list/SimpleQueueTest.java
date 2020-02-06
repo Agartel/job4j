@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class SimpleQueueTest {
-    
+ /*
     @Test
     public void whenAddNewElemThenqueueayAutoExtend() {
         SimpleQueue<Integer> queue = new SimpleQueue<Integer>();
@@ -32,5 +32,5 @@ public class SimpleQueueTest {
         assertThat(queue.poll(), is(66));
         assertNull(queue.poll());
     }
-
+*/
 }

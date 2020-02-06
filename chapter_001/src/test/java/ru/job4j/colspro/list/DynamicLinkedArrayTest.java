@@ -23,7 +23,7 @@ public class DynamicLinkedArrayTest {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void WhenTryGetElemOutBoundThendReturnException () {
+    public void whenTryGetElemOutBoundThendReturnException() {
         arr = new DynamicLinkedArray<>();
         arr.add(1);
         arr.add(2);
@@ -36,7 +36,7 @@ public class DynamicLinkedArrayTest {
     }
 
     @Test(expected = ConcurrentModificationException.class)
-    public void shouldReturnExceptionConcurentMod () {
+    public void shouldReturnExceptionConcurentMod() {
         arr = new DynamicLinkedArray<>();
         arr.add(1);
         arr.add(2);

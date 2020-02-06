@@ -38,7 +38,7 @@ public class MyHashMapTest {
         mymap.insert(user1, 5);
         mymap.insert(user2, 8);
         mymap.insert(user3, 9);
-        Iterator<Integer> it =mymap.iterator();
+        Iterator<Integer> it = mymap.iterator();
         it.next();
         it.next();
         it.next();
@@ -53,7 +53,7 @@ public class MyHashMapTest {
         MyHashMap<MapTest.User, Integer> mymap = new MyHashMap();
         mymap.insert(user1, 5);
         mymap.insert(user2, 8);
-        Iterator<Integer> it =mymap.iterator();
+        Iterator<Integer> it = mymap.iterator();
         assertThat(it.next(), is(5));
         assertFalse(it.hasNext());
     }

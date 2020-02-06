@@ -19,8 +19,8 @@ public class SimpleSetTest {
         Iterator<Integer> it = sset.iterator();
         Integer temp = it.next();
         assertNull(temp);
-        assertThat(it.next(),is(1));
-        assertThat(it.next(),is(2));
+        assertThat(it.next(), is(1));
+        assertThat(it.next(), is(2));
         assertFalse(it.hasNext());
     }
 

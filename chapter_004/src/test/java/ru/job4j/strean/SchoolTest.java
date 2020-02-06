@@ -1,9 +1,8 @@
 package ru.job4j.strean;
 
-import org.junit.Assert;
 import org.junit.Test;
-import stream.School;
-import stream.Student;
+import ru.job4j.stream.School;
+import ru.job4j.stream.Student;
 
 import java.util.Arrays;
 import java.util.List;

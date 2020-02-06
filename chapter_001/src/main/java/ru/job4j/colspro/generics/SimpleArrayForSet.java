@@ -2,7 +2,7 @@ package ru.job4j.colspro.generics;
 
 import java.util.Iterator;
 
-public class SimpleArray<T> implements Iterable<T> {
+public class SimpleArrayForSet<T> implements Iterable<T> {
 
     private Object[] array = new Object[3];
     private int idx = -1;
@@ -36,7 +36,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return index < arr.length && arr[index] != null;
+                return index < arr.length;
             }
 
             @Override

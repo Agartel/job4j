@@ -1,12 +1,12 @@
 package ru.job4j.colspro.set;
 
-import ru.job4j.colspro.generics.SimpleArray;
+import ru.job4j.colspro.generics.SimpleArrayForSet;
 
 import java.util.Iterator;
 import java.util.Objects;
 
 public class SimpleSet<E> implements Iterable<E> {
-    private SimpleArray<E> arr = new SimpleArray<E>();
+    private SimpleArrayForSet<E> arr = new SimpleArrayForSet<E>();
     public boolean contains(E elem) {
         Iterator<E> it = arr.iterator();
         if (elem != null) {

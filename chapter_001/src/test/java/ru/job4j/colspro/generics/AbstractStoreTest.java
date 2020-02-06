@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.is;
 public class AbstractStoreTest {
 
     @Test
-    public void addUserHaveToWork () {
+    public void addUserHaveToWork() {
         User user1 = new User("1");
         UserStore<User> us = new UserStore<User>();
         us.add(user1);
@@ -16,7 +16,7 @@ public class AbstractStoreTest {
     }
 
     @Test
-    public void addRoleHaveToWork () {
+    public void addRoleHaveToWork() {
         Role role1 = new Role("1");
         RoleStore<Role> rs = new RoleStore<Role>();
         rs.add(role1);
@@ -24,17 +24,16 @@ public class AbstractStoreTest {
     }
 
     @Test
-    public void whenDeleteUser1ThenNotFoundUser1 () {
+    public void whenDeleteUser1ThenNotFoundUser1() {
         User user1 = new User("1");
         UserStore<User> us = new UserStore<User>();
         us.add(user1);
         us.delete("1");
         Assert.assertNull(us.findById("1"));
-
     }
 
     @Test
-    public void whenReplaceUser1ToUser2ThenNotFoundUser1AndGetUser2 () {
+    public void whenReplaceUser1ToUser2ThenNotFoundUser1AndGetUser2() {
         User user1 = new User("1");
         UserStore<User> us = new UserStore<User>();
         us.add(user1);
@@ -43,5 +42,4 @@ public class AbstractStoreTest {
         Assert.assertNull(us.findById("1"));
         Assert.assertEquals(us.findById("2"), user2);
     }
-
 }
