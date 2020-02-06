@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 public class DynamicLinkedArray<T> implements Iterable<T> {
     private int modCount = 0;
+    private int size = 0;
     private Node<T> first;
     private static class Node<T> {
 
@@ -19,6 +20,7 @@ public class DynamicLinkedArray<T> implements Iterable<T> {
 
     public void add(T data) {
         modCount++;
+        size++;
         Node<T> newElem = new Node<T>(data);
         newElem.next = this.first;
         this.first = newElem;
@@ -26,13 +28,45 @@ public class DynamicLinkedArray<T> implements Iterable<T> {
 
     public T get(int index) {
         Node<T> result = this.first;
-        if (index > modCount || index < 0) {
+        if (index > size - 1 || index < 0) {
             throw new IndexOutOfBoundsException("Индекс не прошёл валидацию");
         }
         for (int i = 0; i < index; i++) {
             result = result.next;
         }
         return result.data;
+    }
+
+    public T remove(int index) {
+        T elem;
+        if (index > size - 1|| index < 0) {
+            throw new IndexOutOfBoundsException("Индекс не прошёл валидацию");
+        }
+        else if (index == 0) {
+            elem = first.data;
+            if (this.first.next == null) {
+                this.first = null;
+            } else {
+                this.first = this.first.next;
+            }
+        } else {
+            Node<T> node1 = this.first;
+            Node<T> node2 = null;
+            for (int i = 0; i < index; i++) {
+                if (i == index - 1) {
+                   node2 = node1;
+                }
+                if (node1.next == null) {
+                    break;
+                }
+                node1 = node1.next;
+            }
+            elem = node1.data;
+            node2.next = node1.next;
+        }
+        modCount++;
+        size--;
+        return elem;
     }
 
     @Override
