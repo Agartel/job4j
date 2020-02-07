@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 public class SimpleStackTest {
 
     @Test
-    public void whenAddNewElemThenStackAutoExtend() {
+    public void whenSequenceAddThenReverseSequenceGet() {
         SimpleStack<Integer> stack = new SimpleStack<Integer>();
         stack.push(1);
         stack.push(2);
@@ -20,7 +20,7 @@ public class SimpleStackTest {
     }
 
     @Test
-    public void shouldAddDeleteAddCorrectWorks() {
+    public void whenAddThenGetThenAddShouldCorrectWorks() {
         SimpleStack<Integer> stack = new SimpleStack<Integer>();
         stack.push(1);
         stack.push(2);
