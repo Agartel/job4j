@@ -6,9 +6,9 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class SimpleQueueTest {
- /*
+
     @Test
-    public void whenAddNewElemThenqueueayAutoExtend() {
+    public void shouldFirstInputFirstOutputWorksCorrect() {
         SimpleQueue<Integer> queue = new SimpleQueue<Integer>();
         queue.push(1);
         queue.push(2);
@@ -20,7 +20,7 @@ public class SimpleQueueTest {
     }
 
     @Test
-    public void qweqwe() {
+    public void whenNotSequanceAddThenFirstInputFirstOutputWorkCorrect() {
         SimpleQueue<Integer> queue = new SimpleQueue<Integer>();
         queue.push(1);
         queue.push(2);
@@ -32,5 +32,5 @@ public class SimpleQueueTest {
         assertThat(queue.poll(), is(66));
         assertNull(queue.poll());
     }
-*/
+
 }

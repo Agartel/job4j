@@ -3,24 +3,19 @@ package ru.job4j.colspro.list;
 public class SimpleQueue<T> {
     private SimpleStack<T> stack1 = new SimpleStack<T>();
     private SimpleStack<T> stack2 = new SimpleStack<T>();
-    private T tmp;
-    private int idxpush1 = 0;
-    private int idxpush2 = 0;
 
     public T poll() {
-        do {
-            tmp = stack1.poll();
-            if (tmp == null) {
-                break;
+        T tmp = stack2.poll();
+        if (tmp == null) {
+            while ((tmp = stack1.poll()) != null) {
+                stack2.push(tmp);
             }
-            stack2.push(tmp);
-            idxpush2++;
-        } while (true);
-        return idxpush2 <= idxpush1 ? stack2.poll() : null;
+            tmp = stack2.poll();
+        }
+        return tmp;
     }
 
     public void push(T value) {
         stack1.push(value);
-        idxpush1++;
     }
 }
