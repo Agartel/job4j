@@ -23,6 +23,4 @@ public class SimpleSetTest {
         assertThat(it.next(), is(2));
         assertFalse(it.hasNext());
     }
-
-
 }

@@ -6,8 +6,9 @@ public class SimpleStack<T> {
     private T tmp;
 
     public T poll() {
+        T result = idxpush > 0 ? list.remove(0) : null;
         idxpush--;
-        return idxpush >= 0 ? list.remove(0) : null;
+        return result;
     }
 
     public void push(T value) {

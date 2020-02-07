@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class SimpleStackTest {
-/*
+
     @Test
     public void whenAddNewElemThenStackAutoExtend() {
         SimpleStack<Integer> stack = new SimpleStack<Integer>();
@@ -32,5 +32,4 @@ public class SimpleStackTest {
         assertThat(stack.poll(), is(1));
         assertNull(stack.poll());
     }
-*/
 }

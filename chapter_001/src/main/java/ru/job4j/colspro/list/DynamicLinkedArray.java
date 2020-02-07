@@ -9,10 +9,8 @@ public class DynamicLinkedArray<T> implements Iterable<T> {
     private int size = 0;
     private Node<T> first;
     private static class Node<T> {
-
         T data;
         Node<T> next;
-
         Node(T data) {
             this.data = data;
         }
@@ -41,7 +39,8 @@ public class DynamicLinkedArray<T> implements Iterable<T> {
         T elem;
         if (index > size - 1 || index < 0) {
             throw new IndexOutOfBoundsException("Индекс не прошёл валидацию");
-        } else if (index == 0) {
+        }
+        if (index == 0) {
             elem = first.data;
             if (this.first.next == null) {
                 this.first = null;
