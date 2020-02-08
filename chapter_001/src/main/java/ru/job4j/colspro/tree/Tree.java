@@ -1,12 +1,10 @@
 package ru.job4j.colspro.tree;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 
-public class Tree<E extends Comparable<E>> implements SimpleTree {
+public class Tree<E extends Comparable<E>> implements SimpleTree, Iterable {
     private Node<E> root;
+    private int modCount = 0;
 
     public Tree(E root) {
         this.root = new Node(root);
@@ -18,6 +16,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree {
         if (parnode.isPresent() && parent.compareTo(child) == -1) {
             if (!findBy(child).isPresent()) {
                 parnode.get().add(new Node(child));
+                modCount++;
                 return true;
             }
         }
@@ -44,6 +43,39 @@ public class Tree<E extends Comparable<E>> implements SimpleTree {
 
     @Override
     public Iterator iterator() {
-        return null;
+        return new Iterator() {
+            private Queue<Node<E>> data = new LinkedList<>();
+            private Node<E> result;
+            private int modCnt = modCount;
+
+            {
+                data.offer(root);
+            }
+
+            @Override
+            public boolean hasNext() {
+                if (this.modCnt != modCount) {
+                    throw new ConcurrentModificationException("Структура изменилась");
+                }
+                while (!data.isEmpty()) {
+                    result = data.poll();
+                    if (result != null) {
+                        for (Node<E> child : result.leaves()) {
+                            data.offer(child);
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public Object next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("элемент не найден");
+                }
+                return result.getValue();
+            }
+        };
     }
 }
