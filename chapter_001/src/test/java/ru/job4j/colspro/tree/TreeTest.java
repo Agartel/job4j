@@ -35,12 +35,42 @@ public class TreeTest {
         tree.add(4, 5);
         tree.add(5, 6);
         Iterator<Integer> it = tree.iterator();
-        assertThat(it.next(), is(1));
-        assertThat(it.next(), is(2));
-        assertThat(it.next(), is(3));
-        assertThat(it.next(), is(4));
-        assertThat(it.next(), is(5));
-        assertThat(it.next(), is(6));
+        Object obj = it.next();
+        assertThat(((Node) obj).getValue(), is(1));
+        obj = it.next();
+        assertThat(((Node) obj).getValue(), is(2));
+        obj = it.next();
+        assertThat(((Node) obj).getValue(), is(3));
+        obj = it.next();
+        assertThat(((Node) obj).getValue(), is(4));
+        obj = it.next();
+        assertThat(((Node) obj).getValue(), is(5));
+        obj = it.next();
+        assertThat(((Node) obj).getValue(), is(6));
         assertFalse(it.hasNext());
+    }
+
+    @Test
+    public void whenAllTreeNodeIncludeLess3NodesThenItIsBinaryTree() {
+        Tree<Integer> tree = new Tree<Integer>(1);
+        tree.add(1, 2);
+        tree.add(1, 5);
+        tree.add(2, 3);
+        tree.add(2, 4);
+        tree.add(5, 6);
+        assertTrue(tree.isBinary());
+    }
+
+    @Test
+    public void whenOneOfAllTreeNodeIncludeBigger3NodesThenItIsNotBinaryTree() {
+        Tree<Integer> tree = new Tree<Integer>(1);
+        tree.add(1, 2);
+        tree.add(1, 5);
+        tree.add(2, 3);
+        tree.add(2, 4);
+        tree.add(5, 6);
+        tree.add(5, 7);
+        tree.add(5, 8);
+        assertFalse(tree.isBinary());
     }
 }
