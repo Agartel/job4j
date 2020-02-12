@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class AnalizyTest {
     @Test
-    public void WhenSrcLogThenDstLogIsCorrect() throws FileNotFoundException {
+    public void whenSrcLogThenDstLogIsCorrect() throws FileNotFoundException {
         String src = "../chapter_002/src.log";
         String dst = "../chapter_002/dst.log";
         Analizy an = new Analizy();
