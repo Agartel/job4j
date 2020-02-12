@@ -18,8 +18,8 @@ public class Config {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             read.lines().forEach(str -> {
                 if (!str.startsWith("#") && !str.equals("")) {
-                String[] split = str.split("=");
-                values.put(split[0], split[1]);
+                    String[] split = str.split("=");
+                    values.put(split[0], split[1]);
                 }
             });
         } catch (Exception e) {

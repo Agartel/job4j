@@ -13,15 +13,15 @@ import java.util.TreeMap;
 public class Analizy {
     public void unavailable(String source, String target) {
         List<String> lst = new LinkedList<>();
-        String Line;
+        String line;
         String[] split;
         int code;
         String dtbegin = null;
         String dtend = null;
         try (BufferedReader read = new BufferedReader(new FileReader(source))) {
-            while ((Line = read.readLine()) != null) {
-                split = Line.split(" ");
-                code = Integer.parseInt(split[0]);;
+            while ((line = read.readLine()) != null) {
+                split = line.split(" ");
+                code = Integer.parseInt(split[0]);
                 if (code != 400 && code != 500) {
                     if (dtbegin != null) {
                         dtend = split[1];
@@ -34,7 +34,7 @@ public class Analizy {
                 if (dtbegin == null) {
                     dtbegin = split[1];
                 }
-            };
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +44,7 @@ public class Analizy {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        };
+        }
     }
 
 
