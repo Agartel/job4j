@@ -11,8 +11,19 @@ import java.util.TreeMap;
 
 
 public class Analizy {
+    List<String> lst = new LinkedList<>();
+
+    private void flushToDisk(String target) {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
+            for (String str : lst) {
+                out.println(str);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void unavailable(String source, String target) {
-        List<String> lst = new LinkedList<>();
+
         String line;
         String[] split;
         int code;
@@ -29,22 +40,14 @@ public class Analizy {
                     }
                     dtbegin = null;
                     dtend = null;
-                    continue;
-                }
-                if (dtbegin == null) {
+                } else if (dtbegin == null) {
                     dtbegin = split[1];
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
-            for (String str : lst) {
-                out.println(str);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        flushToDisk(target);
     }
 
 
