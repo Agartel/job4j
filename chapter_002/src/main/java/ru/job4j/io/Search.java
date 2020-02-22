@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.*;
 
 class Search {
-    /*public List<File> files(String parent, List<String> exts) {
+    public List<File> files(String parent, List<String> exts) {
         List<File> result = new ArrayList<>();
         Queue<File> data = new LinkedList<>();
-        data.offer(file);
+        data.offer(new File(parent));
         while (!data.isEmpty()) {
             File f = data.poll();
             if (!f.isDirectory()) {
@@ -17,13 +17,13 @@ class Search {
                         break;
                     }
                 }
-            }
-            for (File child : f.listFiles()) {
-                data.offer(child);
+            } else {
+                for (File child : f.listFiles()) {
+                    data.offer(child);
+                }
             }
         }
-        //List<File> files = Arrays.asList(file.listFiles());
         return result;
-    }*/
+    }
 
 }
