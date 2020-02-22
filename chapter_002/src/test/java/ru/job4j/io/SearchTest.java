@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class SearchTest {
     @Test
-    public void ttt() throws FileNotFoundException {
+    public void shouldGet3Files() throws FileNotFoundException {
         String src = System.getProperty("java.io.tmpdir");
         Search srch = new Search();
         List<String> exts = new ArrayList<>();
