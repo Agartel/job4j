@@ -14,7 +14,7 @@ public class Analizy {
     List<String> lst = new LinkedList<>();
 
     private void flushToDisk(String target) {
-        try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
+        try (PrintWriter out = new PrintWriter(target)) {
             for (String str : lst) {
                 out.println(str);
             }
