@@ -9,7 +9,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
-
+/*
     public List<File> seekBy(String root, String ext) {
         Search srch = new Search();
         return srch.files(root, Arrays.asList(ext));
@@ -29,4 +29,5 @@ public class Zip {
     public static void main(String[] args) {
         new Zip().pack(new File("../chapter_002/pom.xml"), new File("../chapter_002/pom.zip"));
     }
+    */
 }
