@@ -3,7 +3,7 @@ language: java
 jdk:
   - openjdk11
 script:
-  - mvn install
+  - mvn deploy --settings settings.xml
 # используем режим обычного пользователя для сборки проекта.
 sudo: true
 
