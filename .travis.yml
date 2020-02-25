@@ -3,7 +3,7 @@ language: java
 jdk:
   - openjdk11
 script:
-  - mvn deploy --settings settings.xml
+  - mvn install
 # используем режим обычного пользователя для сборки проекта.
 sudo: true
 
@@ -18,7 +18,7 @@ notifications:
     recipients:
       - gartel47@gmail.com
     on_success: never # default: change
-    on_failure: always # default: always
+    on_failure: always # default: never
 
 env:
   global:
