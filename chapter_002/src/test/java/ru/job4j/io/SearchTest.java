@@ -10,13 +10,12 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
-public class SearchByBreadthTest {
+public class SearchTest {
 
     @Test
     public void shouldGet3Files() throws IOException {
         String src = System.getProperty("java.io.tmpdir");
-        Search srch = new SearchByBreadth();
-        List<String> exts = new ArrayList<>();
+        Search srch = new Search();
         File f1 = new File(src, "docA.docx");
         f1.createNewFile();
         File d = new File(src, "dir1");
@@ -29,9 +28,11 @@ public class SearchByBreadthTest {
         d2.mkdir();
         File f4 = new File(d2, "docB.docx");
         f4.createNewFile();
+        List<String> exts = new ArrayList<>();
         exts.add("docx");
         exts.add("iml");
-        List<File> files = srch.getFiles(src, exts);
+        Filter filter = new FilterWithExt(exts);
+        List<File> files = srch.getFiles(src, filter);
         assertThat(files.get(0).getName(), is("docA.docx"));
         assertThat(files.get(1).getName(), is("qwe.iml"));
         assertThat(files.get(2).getName(), is("docB.docx"));
