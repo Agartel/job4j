@@ -6,15 +6,15 @@ import java.util.*;
 
 public class Merge {
 
-    private static Map<String, ArrayList<User>> getNeighbors(List<User> users) {
-        Map<String, ArrayList<User>> listNeighbors = new HashMap<String, ArrayList<User>>();
+    private static Map<String, Set<String>> getNeighbors(List<User> users) {
+        Map<String, Set<String>> listNeighbors = new HashMap<String, Set<String>>();
         for (int i = 0; i < users.size(); i++) {
             for (String email : users.get(i).getEmails()) {
-                ArrayList<User> listUsers = listNeighbors.get(email);
-                if (listUsers == null) {
-                    listNeighbors.put(email, new ArrayList<User>(Arrays.asList(users.get(i))));
+                Set<String> listmails = listNeighbors.get(email);
+                if (listmails == null) {
+                    listNeighbors.put(email, new HashSet<>());
                 } else {
-                    listUsers.add(users.get(i));
+                    listmails.addAll(users.get(i).getEmails());
                 }
             }
         }
@@ -23,35 +23,31 @@ public class Merge {
 
     public static List<User> mergeUsers(List<User> users) {
         ArrayList<User> res = new ArrayList<User>();
-        Map<String, ArrayList<User>> listNeighbors = getNeighbors(users);
-        Set<User> remainUsers = new LinkedHashSet<User>();
-        for (User u : users) {
-            remainUsers.add(u);
-        }
-        while (remainUsers.size() > 0) {
-            Iterator<User> it = remainUsers.iterator();
-            User user = it.next();
-            remainUsers.remove(user);
-            res.add(user);
-            Set<String> visited = new LinkedHashSet<String>();
+        Map<String, Set<String>> listNeighbors = getNeighbors(users);
+        Set<String> visited = new LinkedHashSet<String>();
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
             Stack<String> stackMails = new Stack<String>();
+            boolean hasItersect = false;
             for (String email : user.getEmails()) {
+                if (visited.contains(email)) {
+                  hasItersect = true;
+                  break;
+                }
                 stackMails.push(email);
             }
+            if (hasItersect) {
+                continue;
+            }
+            res.add(user);
             while (!stackMails.isEmpty()) {
                 String email = stackMails.pop();
                 if (!visited.contains(email)) {
                     visited.add(email);
                     user.addEmail(email);
-                    List<User> listUsers = listNeighbors.get(email);
-                    for (User usr : listUsers) {
-                        if (user != usr || remainUsers.contains(usr)) {
-                            remainUsers.remove(usr);
-                            for (String e : usr.getEmails()) {
-                                stackMails.push(e);
-                                user.addEmail(e);
-                            }
-                        }
+                    for (String e : listNeighbors.get(email)) {
+                        stackMails.push(e);
+                        user.addEmail(e);
                     }
                 }
             }
