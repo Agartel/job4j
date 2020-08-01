@@ -12,14 +12,14 @@ import static org.hamcrest.Matchers.is;
 public class TrackerTest {
     @Test
     public void whenAddNewItemThenTrackerKnowsItId() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = new Item("test1");
         tracker.add(item);
         assertThat(item.getId(), is(tracker.findById(item.getId()).getId()));
     }
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = new Item("test1");
         tracker.add(item);
         Item result = tracker.findById(item.getId());
@@ -27,7 +27,7 @@ public class TrackerTest {
     }
     @Test
     public void whenReplaceNameThenReturnNewName() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item previous = new Item("test1");
         // Добавляем заявку в трекер. Теперь в объект проинициализирован id.
         tracker.add(previous);
@@ -44,7 +44,7 @@ public class TrackerTest {
     @Test
     public void whenAddNewNItemThenGetNItems() {
         boolean result = false;
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         List<Item> srcitems = new ArrayList();
         srcitems.add(new Item("test1"));
         srcitems.add(new Item("test2"));
@@ -66,7 +66,7 @@ public class TrackerTest {
     @Test
     public void whenAddNewNItemThenGetMItemsByCondition() {
         boolean result = false;
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         List<Item> srcitems = new ArrayList();
         srcitems.add(new Item("test1"));
         srcitems.add(new Item("test2"));
@@ -81,7 +81,7 @@ public class TrackerTest {
     }
     @Test
     public void whenDelete() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item bug = new Item("Bug");
         tracker.add(bug);
         String id = bug.getId();

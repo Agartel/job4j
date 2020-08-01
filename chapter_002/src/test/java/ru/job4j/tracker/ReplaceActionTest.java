@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class ReplaceActionTest {
     @Test
     public void whenReplaceItem() {
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         Item item = new Item("new item");
         tracker.add(item);
         String[] answers = {

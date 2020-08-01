@@ -18,7 +18,7 @@ public class ShowActionTest {
         PrintStream def = System.out;
         System.setOut(new PrintStream(out));
         Item item = new Item("item1");
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         tracker.add(item);
         ShowAction action = new ShowAction();
         System.out.println(action.name());

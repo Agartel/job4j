@@ -16,7 +16,7 @@ public class FindByNameActionTest {
         PrintStream def = System.out;
         System.setOut(new PrintStream(out));
         Item item = new Item("item1");
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         tracker.add(item);
         FindByNameAction action = new FindByNameAction();
         System.out.println("Enter name:");

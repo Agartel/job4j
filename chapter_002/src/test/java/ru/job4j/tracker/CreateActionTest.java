@@ -11,7 +11,7 @@ public class CreateActionTest {
     public void whenAddItem() {
         String[] answers = {"Fix PC"};
         Input input = new StubInput(answers);
-        Tracker tracker = new Tracker();
+        ITracker tracker = new Tracker();
         new CreateAction().execute(input, tracker);
         Item created = tracker.findAll().get(0);
         Item expected = new Item("Fix PC");
