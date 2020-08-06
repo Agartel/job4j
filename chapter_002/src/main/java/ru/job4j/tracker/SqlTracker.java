@@ -9,7 +9,6 @@ import java.util.Properties;
 public class SqlTracker implements Store {
 
     private Connection connection;
-    private PreparedStatement stmt;
 
     public void init() {
         DBFactory factory = new DefaultDBFactory();
@@ -18,86 +17,103 @@ public class SqlTracker implements Store {
 
     @Override
     public Item add(Item item) throws SQLException {
-        this.stmt = this.connection.prepareStatement("INSERT INTO items (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-        this.stmt.setString(1, item.getName());
-        this.stmt.executeUpdate();
-        ResultSet genKey = this.stmt.getGeneratedKeys();
-        if (genKey.next()) {
-           item.setId(genKey.getString(1));
-           return item;
+        try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO items (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS)) {
+            try {
+                stmt.setString(1, item.getName());
+                stmt.executeUpdate();
+                ResultSet genKey = stmt.getGeneratedKeys();
+                if (genKey.next()) {
+                    item.setId(genKey.getString(1));
+                    return item;
+                }
+                return null;
+            } finally {
+                stmt.close();
+            }
         }
-        return null;
     }
 
     @Override
     public boolean replace(String id, Item item) throws SQLException {
-        this.stmt = this.connection.prepareStatement("UPDATE items SET name = ? WHERE ID = ?");
-        this.stmt.setString(1, item.getName());
-        this.stmt.setInt(2, Integer.parseInt(id));
-        this.stmt.executeUpdate();
-        int count = this.stmt.getUpdateCount();
-        if (count == 0) {
-            return false;
+        try (PreparedStatement stmt = connection.prepareStatement("UPDATE items SET name = ? WHERE ID = ?")) {
+            try {
+                stmt.setString(1, item.getName());
+                stmt.setInt(2, Integer.parseInt(id));
+                stmt.executeUpdate();
+                int count = stmt.getUpdateCount();
+                if (count == 0) {
+                    return false;
+                }
+                return true;
+            } finally {
+                stmt.close();
+            }
         }
-        return true;
     }
 
     @Override
     public boolean delete(String id) throws SQLException {
-        this.stmt = this.connection.prepareStatement("DELETE FROM items WHERE ID = ?");
-        this.stmt.setInt(1, Integer.parseInt(id));
-        this.stmt.executeUpdate();
-        int count = this.stmt.getUpdateCount();
-        if (count == 0) {
-            return false;
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM items WHERE ID = ?")) {
+            try {
+                stmt.setInt(1, Integer.parseInt(id));
+                stmt.executeUpdate();
+                if (stmt.getUpdateCount() == 0) {
+                    return false;
+                }
+                return true;
+            } finally {
+                stmt.close();
+            }
         }
-        return true;
     }
 
     @Override
     public List<Item> findAll() throws SQLException {
-        List<Item> items = new ArrayList<Item>();
-        this.stmt = this.connection.prepareStatement("SELECT id, name FROM items");
-        this.stmt.executeQuery();
-        ResultSet resultSet = stmt.getResultSet();
-        while (resultSet.next()) {
-            Item item = new Item();
-            item.setName(resultSet.getString("id"));
-            item.setName(resultSet.getString("name"));
-            items.add(item);
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT id, name FROM items")) {
+            List<Item> items = new ArrayList<Item>();
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                while (resultSet.next()) {
+                    Item item = new Item();
+                    item.setName(resultSet.getString("id"));
+                    item.setName(resultSet.getString("name"));
+                    items.add(item);
+                }
+                return items;
+            }
         }
-        return items;
     }
 
     @Override
     public List<Item> findByName(String key) throws SQLException {
-        List<Item> items = new ArrayList<Item>();
-        this.stmt = this.connection.prepareStatement("SELECT id, name FROM items WHERE name = ?");
-        this.stmt.setString(1, key);
-        this.stmt.executeQuery();
-        ResultSet resultSet = stmt.getResultSet();
-        while (resultSet.next()) {
-            Item item = new Item();
-            item.setName(resultSet.getString("id"));
-            item.setName(resultSet.getString("name"));
-            items.add(item);
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT id, name FROM items WHERE name = ?")) {
+            List<Item> items = new ArrayList<Item>();
+            stmt.setString(1, key);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                while (resultSet.next()) {
+                    Item item = new Item();
+                    item.setName(resultSet.getString("id"));
+                    item.setName(resultSet.getString("name"));
+                    items.add(item);
+                }
+                return items;
+            }
         }
-        return items;
     }
 
     @Override
     public Item findById(String id) throws SQLException {
-        this.stmt = this.connection.prepareStatement("SELECT name FROM items WHERE id = ?");
-        this.stmt.setInt(1, Integer.parseInt(id));
-        this.stmt.executeQuery();
-        ResultSet resultSet = this.stmt.getResultSet();
-        if (resultSet.next()) {
-            Item item = new Item();
-            item.setId(id);
-            item.setName(resultSet.getString(1));
-            return item;
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT name FROM items WHERE id = ?")) {
+            stmt.setInt(1, Integer.parseInt(id));
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    Item item = new Item();
+                    item.setId(id);
+                    item.setName(resultSet.getString(1));
+                    return item;
+                }
+                return null;
+            }
         }
-        return null;
     }
 
     @Override
