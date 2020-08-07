@@ -18,52 +18,40 @@ public class SqlTracker implements Store {
     @Override
     public Item add(Item item) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement("INSERT INTO items (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS)) {
-            try {
-                stmt.setString(1, item.getName());
-                stmt.executeUpdate();
-                ResultSet genKey = stmt.getGeneratedKeys();
-                if (genKey.next()) {
-                    item.setId(genKey.getString(1));
-                    return item;
-                }
-                return null;
-            } finally {
-                stmt.close();
+            stmt.setString(1, item.getName());
+            stmt.executeUpdate();
+            ResultSet genKey = stmt.getGeneratedKeys();
+            if (genKey.next()) {
+                item.setId(genKey.getString(1));
+                return item;
             }
+            return null;
         }
     }
 
     @Override
     public boolean replace(String id, Item item) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement("UPDATE items SET name = ? WHERE ID = ?")) {
-            try {
-                stmt.setString(1, item.getName());
-                stmt.setInt(2, Integer.parseInt(id));
-                stmt.executeUpdate();
-                int count = stmt.getUpdateCount();
-                if (count == 0) {
-                    return false;
-                }
-                return true;
-            } finally {
-                stmt.close();
+            stmt.setString(1, item.getName());
+            stmt.setInt(2, Integer.parseInt(id));
+            stmt.executeUpdate();
+            int count = stmt.getUpdateCount();
+            if (count == 0) {
+                return false;
             }
+            return true;
         }
     }
 
     @Override
     public boolean delete(String id) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM items WHERE ID = ?")) {
-            try {
-                stmt.setInt(1, Integer.parseInt(id));
-                stmt.executeUpdate();
-                if (stmt.getUpdateCount() == 0) {
-                    return false;
-                }
-                return true;
-            } finally {
-                stmt.close();
+            stmt.setInt(1, Integer.parseInt(id));
+            stmt.executeUpdate();
+            if (stmt.getUpdateCount() == 0) {
+                return false;
             }
+            return true;
         }
     }
 
@@ -88,15 +76,14 @@ public class SqlTracker implements Store {
         try (PreparedStatement stmt = connection.prepareStatement("SELECT id, name FROM items WHERE name = ?")) {
             List<Item> items = new ArrayList<Item>();
             stmt.setString(1, key);
-            try (ResultSet resultSet = stmt.executeQuery()) {
-                while (resultSet.next()) {
-                    Item item = new Item();
-                    item.setName(resultSet.getString("id"));
-                    item.setName(resultSet.getString("name"));
-                    items.add(item);
-                }
-                return items;
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                Item item = new Item();
+                item.setName(resultSet.getString("id"));
+                item.setName(resultSet.getString("name"));
+                items.add(item);
             }
+            return items;
         }
     }
 
@@ -104,15 +91,14 @@ public class SqlTracker implements Store {
     public Item findById(String id) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement("SELECT name FROM items WHERE id = ?")) {
             stmt.setInt(1, Integer.parseInt(id));
-            try (ResultSet resultSet = stmt.executeQuery()) {
-                if (resultSet.next()) {
-                    Item item = new Item();
-                    item.setId(id);
-                    item.setName(resultSet.getString(1));
-                    return item;
-                }
-                return null;
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                Item item = new Item();
+                item.setId(id);
+                item.setName(resultSet.getString(1));
+                return item;
             }
+            return null;
         }
     }
 
