@@ -11,11 +11,10 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class SqlTrackerTest {
-    private Connection connection;
     private PreparedStatement stmt;
 
-    {
-        connection = new DefaultDBFactory().getConnect("postgress_db.properties");
+    public Connection init() {
+        return new DefaultDBFactory().getConnect("postgress_db.properties");
     }
 
     public String getRandomString() {
@@ -32,11 +31,11 @@ public class SqlTrackerTest {
 
     @Test
     public void addTest() throws SQLException {
-        SqlTracker sqlTracker = new SqlTracker();
-        sqlTracker.init();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
         Item item = new Item("qqq");
         sqlTracker.add(item);
-        this.stmt = this.connection.prepareStatement("SELECT name FROM items WHERE ID = ?");
+        Connection testconn = this.init();
+        this.stmt = testconn.prepareStatement("SELECT name FROM items WHERE ID = ?");
         this.stmt.setInt(1, Integer.parseInt(item.getId()));
         this.stmt.executeQuery();
         ResultSet resultSet = stmt.getResultSet();
@@ -46,8 +45,7 @@ public class SqlTrackerTest {
 
     @Test
     public void findByIdTest() throws SQLException {
-        SqlTracker sqlTracker = new SqlTracker();
-        sqlTracker.init();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
         Item item = new Item("qqq");
         sqlTracker.add(item);
         Item itemtmp = sqlTracker.findById(item.getId());
@@ -56,8 +54,7 @@ public class SqlTrackerTest {
 
     @Test
     public void replaceTest() throws SQLException {
-        SqlTracker sqlTracker = new SqlTracker();
-        sqlTracker.init();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
         Item item = new Item("qqq");
         sqlTracker.add(item);
         Item item2 = new Item("yyy");
@@ -70,8 +67,7 @@ public class SqlTrackerTest {
 
     @Test
     public void deleteTest() throws SQLException {
-        SqlTracker sqlTracker = new SqlTracker();
-        sqlTracker.init();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
         Item item = new Item("qqq");
         sqlTracker.add(item);
         Boolean isDeleteSuccess = sqlTracker.delete(item.getId());
@@ -82,10 +78,10 @@ public class SqlTrackerTest {
 
     @Test
     public void findAllTest() throws SQLException {
-        SqlTracker sqlTracker = new SqlTracker();
-        sqlTracker.init();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
         List<Item> items = sqlTracker.findAll();
-        this.stmt = this.connection.prepareStatement("SELECT id, name FROM items");
+        Connection testconn = this.init();
+        this.stmt = testconn.prepareStatement("SELECT id, name FROM items");
         this.stmt.executeQuery();
         ResultSet resultSet = stmt.getResultSet();
         List<Item> items2 = new ArrayList<Item>();
@@ -100,15 +96,15 @@ public class SqlTrackerTest {
 
     @Test
     public void findByNameTest() throws SQLException {
-        SqlTracker sqlTracker = new SqlTracker();
-        sqlTracker.init();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
         String name = getRandomString();
         Item item = new Item(name);
         sqlTracker.add(item);
         item = new Item(name);
         sqlTracker.add(item);
         List<Item> items = sqlTracker.findByName(name);
-        this.stmt = this.connection.prepareStatement("SELECT id, name FROM items WHERE name = ?");
+        Connection testconn = this.init();
+        this.stmt = testconn.prepareStatement("SELECT id, name FROM items WHERE name = ?");
         this.stmt.setString(1, name);
         this.stmt.executeQuery();
         ResultSet resultSet = stmt.getResultSet();
@@ -124,14 +120,37 @@ public class SqlTrackerTest {
 
     @Test
     public void closeSuccessTest() throws Exception {
-        SqlTracker sqlTracker = new SqlTracker();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
         sqlTracker.init();
         sqlTracker.close();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void closeFailTest() throws Exception {
-        SqlTracker sqlTracker = new SqlTracker();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
         sqlTracker.close();
+    }
+
+    @Test
+    public void whenConnectionRollbackEnableThenOneRow() throws Exception {
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
+        sqlTracker.add(new Item("nadia", "pokalykhina"));
+        sqlTracker.close();
+        sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
+        sqlTracker.add(new Item("nadia", "pokalykhina"));
+        assertThat(sqlTracker.findByName("nadia").size(), is(1));
+    }
+
+    @Test
+    public void whenConnectionRollbackDisableThenManyRows() throws Exception {
+        SqlTracker sqlTracker = new SqlTracker(this.init());
+        for (Item item : sqlTracker.findByName("alex")) {
+            sqlTracker.delete(item.getId());
+        }
+        sqlTracker.add(new Item("alex", "gartel"));
+        sqlTracker.close();
+        sqlTracker = new SqlTracker(this.init());
+        sqlTracker.add(new Item("alex", "gartel"));
+        assertTrue(sqlTracker.findByName("alex").size() > 1);
     }
 }

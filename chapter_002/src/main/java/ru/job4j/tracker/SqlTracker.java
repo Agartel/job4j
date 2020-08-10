@@ -6,13 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class SqlTracker implements Store {
+public class SqlTracker implements Store   {
 
     private Connection connection;
 
+    public SqlTracker(Connection connection) {
+        this.connection = connection;
+    }
+
+
+    @Override
     public void init() {
-        DBFactory factory = new DefaultDBFactory();
-        connection = factory.getConnect("postgress_db.properties");
+
     }
 
     @Override
@@ -79,7 +84,7 @@ public class SqlTracker implements Store {
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
                 Item item = new Item();
-                item.setName(resultSet.getString("id"));
+                item.setId(resultSet.getString("id"));
                 item.setName(resultSet.getString("name"));
                 items.add(item);
             }
