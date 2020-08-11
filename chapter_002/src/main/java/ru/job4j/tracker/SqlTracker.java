@@ -62,13 +62,14 @@ public class SqlTracker implements Store   {
 
     @Override
     public List<Item> findAll() throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement("SELECT id, name FROM items")) {
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT id, name, \"desc\" FROM items")) {
             List<Item> items = new ArrayList<Item>();
             try (ResultSet resultSet = stmt.executeQuery()) {
                 while (resultSet.next()) {
                     Item item = new Item();
-                    item.setName(resultSet.getString("id"));
+                    item.setId(resultSet.getString("id"));
                     item.setName(resultSet.getString("name"));
+                    item.setDesc(resultSet.getString("desc"));
                     items.add(item);
                 }
                 return items;
@@ -78,7 +79,7 @@ public class SqlTracker implements Store   {
 
     @Override
     public List<Item> findByName(String key) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement("SELECT id, name FROM items WHERE name = ?")) {
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT id, name, \"desc\" FROM items WHERE name = ?")) {
             List<Item> items = new ArrayList<Item>();
             stmt.setString(1, key);
             ResultSet resultSet = stmt.executeQuery();
@@ -86,6 +87,7 @@ public class SqlTracker implements Store   {
                 Item item = new Item();
                 item.setId(resultSet.getString("id"));
                 item.setName(resultSet.getString("name"));
+                item.setDesc(resultSet.getString("desc"));
                 items.add(item);
             }
             return items;
@@ -94,13 +96,14 @@ public class SqlTracker implements Store   {
 
     @Override
     public Item findById(String id) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement("SELECT name FROM items WHERE id = ?")) {
+        try (PreparedStatement stmt = connection.prepareStatement("SELECT name, \"desc\" FROM items WHERE id = ?")) {
             stmt.setInt(1, Integer.parseInt(id));
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 Item item = new Item();
                 item.setId(id);
                 item.setName(resultSet.getString(1));
+                item.setDesc(resultSet.getString(2));
                 return item;
             }
             return null;

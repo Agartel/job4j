@@ -31,9 +31,11 @@ public class SqlTrackerTest {
 
     @Test
     public void addTest() throws SQLException {
-        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
+        Connection conn = this.init();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(conn));
         Item item = new Item("qqq");
         sqlTracker.add(item);
+        conn.commit();
         Connection testconn = this.init();
         this.stmt = testconn.prepareStatement("SELECT name FROM items WHERE ID = ?");
         this.stmt.setInt(1, Integer.parseInt(item.getId()));
@@ -96,22 +98,22 @@ public class SqlTrackerTest {
 
     @Test
     public void findByNameTest() throws SQLException {
-        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(this.init()));
+        Connection con = this.init();
+        SqlTracker sqlTracker = new SqlTracker(ConnectionRollback.create(con));
         String name = getRandomString();
         Item item = new Item(name);
         sqlTracker.add(item);
         item = new Item(name);
         sqlTracker.add(item);
         List<Item> items = sqlTracker.findByName(name);
-        Connection testconn = this.init();
-        this.stmt = testconn.prepareStatement("SELECT id, name FROM items WHERE name = ?");
+        this.stmt = con.prepareStatement("SELECT id, name FROM items WHERE name = ?");
         this.stmt.setString(1, name);
         this.stmt.executeQuery();
         ResultSet resultSet = stmt.getResultSet();
         List<Item> items2 = new ArrayList<Item>();
         while (resultSet.next()) {
             item = new Item();
-            item.setName(resultSet.getString("id"));
+            item.setId(resultSet.getString("id"));
             item.setName(resultSet.getString("name"));
             items2.add(item);
         }
