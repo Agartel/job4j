@@ -1,9 +1,7 @@
 package ru.job4j.spammer;
 
 import org.junit.Test;
-import ru.job4j.tracker.DefaultDBFactory;
-import ru.job4j.tracker.Item;
-import ru.job4j.tracker.SqlTrackerTest;
+
 import java.io.*;
 import java.sql.*;
 import java.util.List;
@@ -47,7 +45,7 @@ public class ImportDBTest {
     @Test
     public void loadSuccess() throws IOException {
         Properties cfg = new Properties();
-        try (FileInputStream in = new FileInputStream("./app.properties")) {
+        try (FileInputStream in = new FileInputStream("app.properties")) {
             cfg.load(in);
         }
         ImportDB db = new ImportDB(cfg, createFile());
@@ -62,7 +60,7 @@ public class ImportDBTest {
     @Test
     public void saveSsuccess() throws IOException, SQLException, ClassNotFoundException {
         Properties cfg = new Properties();
-        try (FileInputStream in = new FileInputStream("./app.properties")) {
+        try (FileInputStream in = new FileInputStream("app.properties")) {
             cfg.load(in);
         }
         ImportDB db = new ImportDB(cfg, createFile());
