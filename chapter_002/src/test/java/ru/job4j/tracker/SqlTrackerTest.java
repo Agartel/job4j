@@ -14,7 +14,7 @@ public class SqlTrackerTest {
     private PreparedStatement stmt;
 
     public Connection init() {
-        return new DefaultDBFactory().getConnect("postgress_db.properties");
+        return new DefaultDBFactory().getConnect("tracker_db.properties");
     }
 
     public String getRandomString() {
