@@ -1,6 +1,8 @@
 package ru.job4j.spammer;
 
 import org.junit.Test;
+import ru.job4j.spammer.ImportDB;
+import ru.job4j.tracker.SqlTracker;
 
 import java.io.*;
 import java.sql.*;
@@ -45,9 +47,10 @@ public class ImportDBTest {
     @Test
     public void loadSuccess() throws IOException {
         Properties cfg = new Properties();
-        try (FileInputStream in = new FileInputStream("app.properties")) {
+        try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties")) {
             cfg.load(in);
         }
+
         ImportDB db = new ImportDB(cfg, createFile());
         List<ImportDB.User> users =  db.load();
         assertThat(users.get(0).name, is(text1.split(";")[0]));
@@ -55,17 +58,18 @@ public class ImportDBTest {
         assertThat(users.get(1).name, is(text2.split(";")[0]));
         assertThat(users.get(1).email, is(text2.split(";")[1]));
         assertThat(users.size(), is(2));
-    }
+}
 
     @Test
-    public void saveSsuccess() throws IOException, SQLException, ClassNotFoundException {
+    public void saveSuccess() throws IOException, SQLException, ClassNotFoundException {
         Properties cfg = new Properties();
-        try (FileInputStream in = new FileInputStream("app.properties")) {
+        try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties")) {
             cfg.load(in);
         }
         ImportDB db = new ImportDB(cfg, createFile());
         List<ImportDB.User> users =  db.load();
         db.save(users);
+        //Class.forName(cfg.getProperty("driver-class-name"));
         try (Connection connection = DriverManager.getConnection(
                 cfg.getProperty("jdbc.url"),
                 cfg.getProperty("jdbc.username"),
@@ -74,8 +78,8 @@ public class ImportDBTest {
             PreparedStatement stmt = connection.prepareStatement("SELECT name FROM users WHERE name = ? and email = ? UNION ALL SELECT name FROM users WHERE name = ? and email = ?");
             stmt.setString(1, text1.split(";")[0]);
             stmt.setString(2, text1.split(";")[1]);
-            stmt.setString(3, text1.split(";")[0]);
-            stmt.setString(4, text1.split(";")[1]);
+            stmt.setString(3, text2.split(";")[0]);
+            stmt.setString(4, text2.split(";")[1]);
             stmt.executeQuery();
             ResultSet resultSet = stmt.getResultSet();
             int i = 0;
