@@ -4,8 +4,7 @@ jdk:
   - openjdk11
 services:
   - postgresql
-before_install:
-  - psql -c 'create database tracker;' -U postgres
+
 script:
   - mvn install
 # используем режим обычного пользователя для сборки проекта.
