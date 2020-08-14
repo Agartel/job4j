@@ -31,7 +31,7 @@ public class ImportDBTest {
     private String createFile() throws IOException {
         this.text1 = getRandomString() + ";" + getRandomString() + ";";
         this.text2 = getRandomString() + ";" + getRandomString() + ";";
-        File file = new File("ImportDBTest_loadSuccess.txt");
+        File file = new File(".ImportDBTest_loadSuccess.txt");
         if (file.exists()) {
             file.delete();
         }
