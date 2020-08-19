@@ -4,22 +4,22 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 
 public class Food {
-    private String mame;
+    private String name;
     private LocalDateTime createDate;
     private LocalDateTime expireDate;
     private Integer price;
     private Integer disscount;
 
-    public Food(String mame, LocalDateTime createDate, LocalDateTime expireDate, Integer price, Integer disscount) {
-        this.mame = mame;
+    public Food(String name, LocalDateTime createDate, LocalDateTime expireDate, Integer price, Integer disscount) {
+        this.name = name;
         this.createDate = createDate;
         this.expireDate = expireDate;
         this.price = price;
         this.disscount = disscount;
     }
 
-    public void setMame(String mame) {
-        this.mame = mame;
+    public void setname(String name) {
+        this.name = name;
     }
 
     public void setExpireDate(LocalDateTime expireDate) {
@@ -38,8 +38,8 @@ public class Food {
         this.disscount = disscount;
     }
 
-    public String getMame() {
-        return mame;
+    public String getName() {
+        return name;
     }
 
     public LocalDateTime getExpireDate() {

@@ -1,14 +1,8 @@
 package ru.job4j.design.lsp;
 
 import org.junit.Test;
-import ru.job4j.design.srp.BughReport;
-import ru.job4j.design.srp.Employee;
-import ru.job4j.design.srp.MemStore;
-import ru.job4j.design.srp.ReportEngine;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -24,8 +18,14 @@ public class ControllQualityTest {
         Food food1 = new Food("apple", ltm1, ltm2, 400, 0);
         Thread.sleep(2000);
         cntrl.distribute(food1);
-        Food result = cntrl.getWarehouse().get(x -> true).get(0);
-        assertEquals(result.getMame(), "apple");
+        Food result = null;
+        for (Storage storage : cntrl.getStorages()) {
+            if (storage instanceof WareHouse) {
+                result = storage.clear().get(0);
+                break;
+            }
+        }
+        assertEquals(result.getName(), "apple");
     }
 
     @Test
@@ -36,8 +36,14 @@ public class ControllQualityTest {
         Food food1 = new Food("apple", ltm1, ltm2, 400, 0);
         Thread.sleep(5000);
         cntrl.distribute(food1);
-        Food result = cntrl.getShop().get(x -> true).get(0);
-        assertEquals(result.getMame(), "apple");
+        Food result = null;
+        for (Storage storage : cntrl.getStorages()) {
+            if (storage instanceof Shop) {
+                result = storage.clear().get(0);
+                break;
+            }
+        }
+        assertEquals(result.getName(), "apple");
         assertThat(result.getDisscount(), is(0));
     }
 
@@ -49,8 +55,14 @@ public class ControllQualityTest {
         Food food1 = new Food("apple", ltm1, ltm2, 400, 0);
         Thread.sleep(8000);
         cntrl.distribute(food1);
-        Food result = cntrl.getShop().get(x -> true).get(0);
-        assertEquals(result.getMame(), "apple");
+        Food result = null;
+        for (Storage storage : cntrl.getStorages()) {
+            if (storage instanceof Shop) {
+                result = storage.clear().get(0);
+                break;
+            }
+        }
+        assertEquals(result.getName(), "apple");
         assertThat(result.getDisscount(), is(40));
     }
 
@@ -62,8 +74,14 @@ public class ControllQualityTest {
         Food food1 = new Food("apple", ltm1, ltm2, 400, 0);
         Thread.sleep(10000);
         cntrl.distribute(food1);
-        Food result = cntrl.getTrash().get(x -> true).get(0);
-        assertEquals(result.getMame(), "apple");
+        Food result = null;
+        for (Storage storage : cntrl.getStorages()) {
+            if (storage instanceof Trash) {
+                result = storage.clear().get(0);
+                break;
+            }
+        }
+        assertEquals(result.getName(), "apple");
     }
 
 }

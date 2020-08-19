@@ -14,7 +14,17 @@ public class Trash implements Storage {
     }
 
     @Override
-    public List<Food> get(Predicate<Food> filter) {
-        return products.stream().filter(filter).collect(Collectors.toList());
+    public boolean accept(Food food) {
+        if (calculatePrc(food) >= 100) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Food> clear() {
+        List<Food> products = this.products;
+        this.products = null;
+        return products;
     }
 }

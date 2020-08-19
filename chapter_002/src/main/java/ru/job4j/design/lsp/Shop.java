@@ -10,11 +10,25 @@ public class Shop implements Storage {
 
     @Override
     public void add(Food food) {
+        if (calculatePrc(food) >= 75) {
+            food.setDisscount(food.getPrice() * 10 / 100);
+        }
         products.add(food);
     }
 
     @Override
-    public List<Food> get(Predicate<Food> filter) {
-        return products.stream().filter(filter).collect(Collectors.toList());
+    public boolean accept(Food food) {
+        Double prc = calculatePrc(food);
+        if (prc >= 25 && prc < 100) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<Food> clear() {
+        List<Food> products = this.products;
+        this.products = null;
+        return products;
     }
 }
