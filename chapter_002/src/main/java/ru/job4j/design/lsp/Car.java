@@ -1,16 +1,14 @@
 package ru.job4j.design.lsp;
 
-public class Car {
+public abstract class Car {
     private final int serialnum;
     private final int length;
-    private final int height;
     private final int weight;
     private int fuellevel = 0;
 
-    public Car(int serialnum, int length, int height, int weight) {
+    public Car(int serialnum, int length, int weight) {
         this.serialnum = serialnum;
         this.length = length;
-        this.height = height;
         this.weight = weight;
     }
 
