@@ -21,7 +21,7 @@ public class Menu {
         int delimsize = (subpath.split("\\.").length + 1) * 3;
         for (int i = 0; i < itms.size(); i++) {
             Item itm = itms.get(i);
-            path = subpath + (i + 1) + "." ;
+            path = subpath + (i + 1) + ".";
             System.out.println(String.format("%" + delimsize + "s", " ").replace(' ', '-') + " " + itm.getName() + " " + path);
             showSubSections(path, itm.getItems());
         }

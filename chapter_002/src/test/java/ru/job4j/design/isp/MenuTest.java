@@ -54,8 +54,7 @@ public class MenuTest {
                      .append("--------- iiiiii 3.1.1.").append(System.lineSeparator())
                      .append("--------- pppppp 3.1.2.").append(System.lineSeparator())
                 .append("------ vvvvvv 3.2.").append(System.lineSeparator())
-                .append("You run a pppppp partition").append(System.lineSeparator())
-        ;
+                .append("You run a pppppp partition").append(System.lineSeparator());
         Assert.assertEquals(text.toString(), output.toString());
     }
 
