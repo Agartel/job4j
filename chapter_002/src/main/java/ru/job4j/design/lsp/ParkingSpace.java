@@ -3,11 +3,16 @@ package ru.job4j.design.lsp;
 public abstract class ParkingSpace {
     private int placeLong;
     private int placeWidth;
-    private boolean isBusy = false;
+    private Car car;
 
     public ParkingSpace() {
-        this.placeLong = 6;
+        this.placeLong = 5;
         this.placeWidth = 2;
+    }
+
+    public ParkingSpace(int placeLong, int placeWidth) {
+        this.placeLong = placeLong;
+        this.placeWidth = placeWidth;
     }
 
     public int getPlaceLong() {
@@ -19,18 +24,14 @@ public abstract class ParkingSpace {
     }
 
     public boolean isBusy() {
-        return isBusy;
+        return car == null ? false : true;
     }
 
-    public void setBusy(boolean busy) {
-        isBusy = busy;
+    public void setCar(Car car) {
+        this.car = car;
     }
 
-    public void setPlaceLong(int placeLong) {
-        this.placeLong = placeLong;
-    }
-
-    public void setPlaceWidth(int placeWidth) {
-        this.placeWidth = placeWidth;
+    public Car getCar() {
+        return car;
     }
 }
