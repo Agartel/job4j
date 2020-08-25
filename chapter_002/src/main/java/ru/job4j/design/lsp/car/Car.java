@@ -1,4 +1,4 @@
-package ru.job4j.design.lsp;
+package ru.job4j.design.lsp.car;
 
 public abstract class Car {
     private final int serialnum;

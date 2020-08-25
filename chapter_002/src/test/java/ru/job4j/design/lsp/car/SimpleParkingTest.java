@@ -1,7 +1,8 @@
-package ru.job4j.design.lsp;
+package ru.job4j.design.lsp.car;
 
 import static org.hamcrest.core.Is.is;
 import org.junit.Test;
+import ru.job4j.design.lsp.car.*;
 
 import static org.junit.Assert.*;
 

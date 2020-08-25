@@ -1,9 +1,6 @@
-package ru.job4j.design.lsp;
-
-import org.apache.logging.log4j.core.util.ArrayUtils;
+package ru.job4j.design.lsp.car;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SimpleParking implements Parking {

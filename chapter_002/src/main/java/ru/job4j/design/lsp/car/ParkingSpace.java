@@ -1,4 +1,4 @@
-package ru.job4j.design.lsp;
+package ru.job4j.design.lsp.car;
 
 public abstract class ParkingSpace {
     private int placeLong;
