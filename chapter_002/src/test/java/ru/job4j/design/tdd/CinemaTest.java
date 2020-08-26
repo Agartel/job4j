@@ -29,4 +29,12 @@ public class CinemaTest {
         assertThat(ticket, is(new Ticket3D()));
     }
 
+    @Test
+    public void add() {
+        Cinema cinema = new Cinema3D();
+        Session session = new Session3D();
+        cinema.add(session);
+        List<Session> sessions = cinema.find(sess -> true);
+        assertTrue(sessions.contains(session));
+    }
 }
