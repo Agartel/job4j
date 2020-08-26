@@ -24,7 +24,13 @@ public class WareHouse implements Storage {
     @Override
     public List<Food> clear() {
         List<Food> products = this.products;
-        this.products = null;
+        this.products = new ArrayList<Food>();
         return products;
     }
+
+    @Override
+    public List<Food> getProducts() {
+        return this.products;
+    }
+
 }

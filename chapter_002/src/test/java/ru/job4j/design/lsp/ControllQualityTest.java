@@ -84,4 +84,47 @@ public class ControllQualityTest {
         assertEquals(result.getName(), "apple");
     }
 
+    @Test
+    public void resortCheckEachStorageWhenPrcLifeFoodExpireThenMoveToNextStage() throws InterruptedException {
+        ControllQuality cntrl = new ControllQuality();
+        Food food1 = new Food("apple", LocalDateTime.now(), LocalDateTime.now().plusSeconds(35), 400, 0);
+        cntrl.distribute(food1);
+        Food result = null;
+        for (Storage storage : cntrl.getStorages()) {
+            if (storage instanceof WareHouse) {
+                result = storage.getProducts().get(0);
+                break;
+            }
+        }
+        assertEquals(result.getName(), "apple");
+        Food food2 = new Food("banana", LocalDateTime.now(), LocalDateTime.now().plusSeconds(10), 400, 0);
+        Thread.sleep(8000);
+        cntrl.distribute(food2);
+        for (Storage storage : cntrl.getStorages()) {
+            if (storage instanceof Shop) {
+                result = storage.getProducts().get(0);
+                break;
+            }
+        }
+        assertEquals(result.getName(), "banana");
+        assertThat(result.getDisscount(), is(40));
+        Thread.sleep(2000);
+        cntrl.resort();
+        for (Storage storage : cntrl.getStorages()) {
+            if (storage instanceof Shop) {
+                result = storage.clear().get(0);
+                break;
+            }
+        }
+        assertEquals(result.getName(), "apple");
+        assertThat(result.getDisscount(), is(0));
+        for (Storage storage : cntrl.getStorages()) {
+            if (storage instanceof Trash) {
+                result = storage.clear().get(0);
+                break;
+            }
+        }
+        assertEquals(result.getName(), "banana");
+        assertThat(result.getDisscount(), is(40));
+    }
 }
